@@ -5,12 +5,12 @@ require_once 'config.php'; //loading project credentials
 require_once 'functions.php';
 
 $credentials = new Google_Auth_AssertionCredentials(
-    $client_email,
+    $client_email, //service account email adress
     $scopes,
-    $private_key,
-    'notasecret',                                 // Default P12 password
+    $private_key, //P12 key downloaded from project credentials
+    $privatekey_pass,                          
     'http://oauth.net/grant_type/jwt/1.0/bearer', // Default grant type
-    $user_to_impersonate
+    $user_to_impersonate // email adress
 );
 
 $client = new Google_Client();
