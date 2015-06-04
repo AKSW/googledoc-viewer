@@ -1,0 +1,14 @@
+{
+    "name": "fteichmann/googledoc-viewer",
+    "require": {
+        "google/apiclient": "1.*"
+    },
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Franz Teichmann",
+            "email": "franz.teichmann@gmx.de"
+        }
+    ],
+    "minimum-stability": "dev"
+}
