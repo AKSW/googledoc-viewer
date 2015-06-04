@@ -1,4 +1,3 @@
 config.php
-AKSW-drive.p12
-
-
+*.p12
+/vendor/
