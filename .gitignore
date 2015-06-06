@@ -1,3 +1,5 @@
 config.php
 *.p12
 /vendor/
+*.lock
+/google-api-php-client/
