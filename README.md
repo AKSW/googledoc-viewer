@@ -5,8 +5,8 @@ These theses are to be managed and organized in a collaborative Google document 
 
 # dependencies #
 
-PHP 5.2.1 or higher
-Google APIs Client Library for PHP (https://github.com/google/google-api-php-client)
+1. PHP 5.2.1 or higher
+2. Google APIs Client Library for PHP (https://github.com/google/google-api-php-client)
 
 # deploy #
 
