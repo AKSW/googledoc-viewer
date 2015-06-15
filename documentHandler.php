@@ -76,6 +76,28 @@ class DocumentHandler{
             print($file->getTitle()."\n");
         }
     }
+    /**
+     * get all document IDs
+     */
+    public function getIDs(){
+        $result = array();
+        foreach ($this->files as $file){
+            array_push($result,$file->getId());
+        }
+        return $result;
+    }
+    
+    /**
+     * searches our List of documents for a specific title, returns ID
+     */    
+    public function searchByTitle($title){
+        foreach ($this->files as $file){
+            if($file->getTitle() == $title){//case sensitive
+                return $file->getId();
+            }
+        }
+        return false;
+    }
 
     
 }
