@@ -98,6 +98,22 @@ class DocumentHandler{
         }
         return false;
     }
+    /**
+     * search for files with description rules
+     * @param constraints: array of [key]:value pairs to be listed in the document description
+     * e.g. "key=value;" or "type=thesis"
+     * not using custom file properties because these can't be added in the googledoc GUI
+     * @return array of IDs that fullfill the constraints
+     */
+    public function searchByDescription($constraints,$sublist = NULL){
+    //tba
+    }
+    /**
+     *
+     */
+    public function getPDFByID($ID){
+    //tba
+    }
 
     
 }
