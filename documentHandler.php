@@ -101,7 +101,7 @@ class DocumentHandler{
     /**
      * searches our List of documents for a specific title, returns file handle
      */    
-    public function searchByID($id){
+    public function searchById($id){
         foreach ($this->files as $file){
             $tmpid = $file->getId();
             if($tmpid == $id){//case sensitive
@@ -120,31 +120,40 @@ class DocumentHandler{
     public function searchByDescription($constraints,$sublist = NULL){
         $files = array();
         $result = array();
-        if(!$sublist){
+        if($sublist){
             foreach($sublist as $element){
-                array_push($files,this->searchByID($element));
+                array_push($files,$this->searchById($element));
             }
         }else{
             $files = $this->files;
         }
-
         foreach($this->files as $file){
             $tmpdescription = $file->getDescription();
             $constraintViolation = false;
-            foreach($constraints as $key -> $value){
-                $constraintViolation = (strpos($tmpdescription, $key.'='.$value.';') == FALSE) && break;     
+            foreach($constraints as $key => $value){
+                if(strpos($tmpdescription, $key.'='.$value.';') === FALSE){
+                    $constraintViolation = true;
+                    break; 
+                }    
             }
-            !$constraintViolation && array_push($result,$file->getId());
-        }            
-        return empty($result) || $result;    
-        
+            if(!$constraintViolation){
+                array_push($result,$file->getId());
+            }
+        }   
+        if(!empty($result)){
+            return $result;
+        }else{
+            return NULL;
+        }    
     }
     /**
      *
      */
-    public function getPDFByID($ID){
+    public function getPDFByID($id){
     //tba
     }
 
-    
+    public function printDescription($file){
+        return $file->getDescription();
+    }
 }
