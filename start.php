@@ -8,8 +8,8 @@ require_once 'documentHandler.php';
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass,$grant,$user_to_impersonate);
 
 $constraints = array();
-$constraints['status'] = "closed";
-//$constraints['type'] = "thesis";
+$constraints['status'] = "open";
+$constraints['type'] = "thesis";
 
 echo "using constraints:\n";
 foreach ($constraints as $key => $value){
@@ -23,5 +23,6 @@ if(!$result){
 
     foreach ($result as $x){
         echo "I found a Document: ".$x."\n";
+        echo "Download at: ".$documentHandler->getDownloadLink($documentHandler->searchById($x))."\n";
     }
 }

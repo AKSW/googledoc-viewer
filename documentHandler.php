@@ -68,7 +68,7 @@ class DocumentHandler{
     }
 
     /**
-     *printing all titles from the retrieved files
+     * printing all titles from the retrieved files
      *
      */
     public function printtitles(){
@@ -77,7 +77,8 @@ class DocumentHandler{
         }
     }
     /**
-     * get all document IDs
+     * get all document IDs 
+     * @return array of google document IDs
      */
     public function getIDs(){
         $result = array();
@@ -89,6 +90,8 @@ class DocumentHandler{
     
     /**
      * searches our List of documents for a specific title, returns ID
+     * @param $title: string; title of the document to be searched for (case-sensitive)
+     * @return string: document ID
      */    
     public function searchByTitle($title){
         foreach ($this->files as $file){
@@ -100,6 +103,8 @@ class DocumentHandler{
     }
     /**
      * searches our List of documents for a specific title, returns file handle
+     * @param $id: string; ID of the document to be searched for
+     * @return file handle of a google document file object
      */    
     public function searchById($id){
         foreach ($this->files as $file){
@@ -146,14 +151,10 @@ class DocumentHandler{
             return NULL;
         }    
     }
-    /**
-     *
-     */
-    public function getPDFByID($id){
-    //tba
-    }
-
-    public function printDescription($file){
+    public function getDescription($file){
         return $file->getDescription();
+    }
+    public function getDownloadLink($file){
+        return $file->getExportLinks()['application/pdf'];
     }
 }
