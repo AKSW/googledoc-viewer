@@ -14,5 +14,7 @@ These theses are to be managed and organized in a collaborative Google document 
 1. register at the google developer console (https://console.developers.google.com/) and create a project
 2. check "APIs & auth" and search for "Drive API" and enable it
 3. go "Credentials" and generate a new ID, choose "Service account"
-4. follow "Creating a service account" on https://developers.google.com/api-client-library/php/auth/service-accounts
+4. generate a new .p12 key and keep it save
 5. fill in the config with the given project credentials and rename it to config.php
+6. if you don't want to impersonate a specific user, leave $user_to_impersonate = ''; blank, create a new folder in your google drive and share with the google service account email adress
+
