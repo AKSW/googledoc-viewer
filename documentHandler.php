@@ -151,6 +151,9 @@ class DocumentHandler{
             return NULL;
         }    
     }
+    public function getTitleById($id){
+        return $this->searchById($id)->getTitle();
+    }
     public function getDescription($file){
         return $file->getDescription();
     }

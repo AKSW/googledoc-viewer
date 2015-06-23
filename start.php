@@ -22,7 +22,7 @@ if(!$result){
 }else{
 
     foreach ($result as $x){
-        echo "I found a Document: ".$x."\n";
+        echo "I found a Document: id=".$x." - title=".$documentHandler->getTitleById($x)."\n";
         echo "Download at: ".$documentHandler->getDownloadLink($documentHandler->searchById($x))."\n";
     }
 }
