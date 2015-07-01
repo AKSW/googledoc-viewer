@@ -19,3 +19,6 @@ These theses are to be managed and organized in a collaborative Google document 
 6. if you don't want to impersonate a specific user, leave $user_to_impersonate = ''; blank, create a new folder in your google drive and share with the google service account email adress or add a folder to your drive which the google service account can access
 note: there seems to be a problem with impersonating a @gmail adress
 
+# manual #
+
+* please see Manual.md
