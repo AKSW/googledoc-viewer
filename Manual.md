@@ -13,6 +13,7 @@ In the AKSW-group we have a lot of different topics currently researched by a gr
 # Topic Property System #
 
 To implement a basic search system, properties need to be added to the description field of your document. Please use the following syntax to make your document searchable.
+
     property1=value1;property2=value2;
 
 The following properties are implemented and a number of these can be chosen.
