@@ -17,6 +17,7 @@ These theses are to be managed and organized in a collaborative Google document 
 4. generate a new .p12 key and keep it save
 5. fill in the config with the given project credentials and rename it to config.php
 6. if you don't want to impersonate a specific user, leave $user_to_impersonate = ''; blank, create a new folder in your google drive and share with the google service account email adress or add a folder to your drive which the google service account can access
+
 note: there seems to be a problem with impersonating a @gmail adress
 
 # manual #
