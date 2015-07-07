@@ -22,7 +22,7 @@ if($result){
     foreach ($result as $x){
         array_push($response, array(
             'Title' => $documentHandler->getTitleById($x),
-            'Download' => urlencode($documentHandler->getDownloadLink($documentHandler->searchById($x)))
+            'Download' => $documentHandler->getDownloadLink($documentHandler->searchById($x))
             )
         );
     }

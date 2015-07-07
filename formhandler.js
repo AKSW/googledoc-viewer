@@ -1,12 +1,12 @@
 //wait for the document to be loaded
 $(document).ready(function(){
-
     printList(evaluateForm());
     $('#submit').click(function (event){
         event.preventDefault();
         printList(evaluateForm());
     });
 });
+//$('#name').change(function (event)...
 
 function printList(data){
     //request php json response
@@ -33,7 +33,7 @@ function printList(data){
                     }
                     output += "<td>";
                     if(key == "Download"){
-                        output += "<a href=\">"+value+"\">Link</a>";
+                        output += "<a href="+value+">Link</a>";
                     }else{
                         output += value;
                     }
