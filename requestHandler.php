@@ -17,16 +17,15 @@ foreach($_GET as $key => $value){
 
 //searching files that match these constraints
 $result = $documentHandler->searchByDescription($constraints);
-if(!$result){
-    $response = "<p>Sorry, no Topic matched your criteria.</p>";
-}else{
-    $response = "<table>\n<tr><th>Titel</th><th>Downloadlink</th></tr>\n";
-    //filling the result html table
+$response = array();
+if($result){
     foreach ($result as $x){
-        $response .= "<tr><th>".$documentHandler->getTitleById($x)."</th>";
-        $response .= "<th><a href=\"".$documentHandler->getDownloadLink($documentHandler->searchById($x))."\">Link</a></th></tr>\n";
+        array_push($response, array(
+            'Title' => $documentHandler->getTitleById($x),
+            'Download' => urlencode($documentHandler->getDownloadLink($documentHandler->searchById($x)))
+            )
+        );
     }
-    $response .= "</table>\n";
 }
 
-echo $response;
+echo json_encode($response);
