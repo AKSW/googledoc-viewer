@@ -1,8 +1,9 @@
 //wait for the document to be loaded
 $(document).ready(function(){
     printList(evaluateForm());
-    $('#submit').click(function (event){
-        event.preventDefault();
+    //all selectors in the form
+    var selectors = ['#type','#status','#urgency'];
+    $(selectors.join()).change(function (event){
         printList(evaluateForm());
     });
 });
