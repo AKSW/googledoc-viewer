@@ -18,8 +18,8 @@ To implement a basic search system, properties need to be added to the descripti
 
 The following properties are implemented and a number of these can be chosen.
 
-| property | status 1 | status 2 | status 3|
-|---|---|---| ---| 
-| status | open | assigned | closed |
-| type | bachelorThesis | masterThesis | project |
+| property | status 1 | status 2 | status 3|status 4|
+|---|---|---| ---| --- |
+| status | open | assigned | closed | --- |
+| type | bachelorThesis | masterThesis | project | dissertation |
 | urgency | high | normal | --- |
