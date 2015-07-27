@@ -20,11 +20,13 @@ $result = $documentHandler->searchByDescription($constraints);
 $response = array();
 if($result){
     foreach ($result as $x){
-        array_push($response, array(
-            'Title' => $documentHandler->getTitleById($x),
-            'Download' => $documentHandler->getDownloadLink($documentHandler->searchById($x))
-            )
-        );
+        $title = $documentHandler->getTitleById($x);
+        $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
+        if($title && $download){
+            array_push($response, array('Title' => $title,'Download' => $download));
+        }else{
+            continue;
+        }
     }
 }
 
