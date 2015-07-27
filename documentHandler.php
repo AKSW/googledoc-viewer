@@ -160,4 +160,12 @@ class DocumentHandler{
     public function getDownloadLink($file){
         return $file->getExportLinks()['application/pdf'];
     }
+    public function deleteFile($fileId) {
+        try {
+            $this->service->files->delete($fileId);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-require('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 
 require_once 'config.php'; //loading project credentials
 require_once 'documentHandler.php';
