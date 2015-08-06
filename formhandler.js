@@ -2,7 +2,10 @@
 $(document).ready(function(){
     printList(evaluateForm());
     //all selectors in the form
-    var selectors = ['#type','#status','#urgency'];
+    var selectors = new Array();
+        for(var i = 0; i<form.length;i++){
+        selectors.push('#'+form[i].id);
+    }
     $(selectors.join()).change(function (event){
         printList(evaluateForm());
     });
