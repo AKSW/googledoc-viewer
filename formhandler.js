@@ -7,8 +7,19 @@ $(document).ready(function(){
         printList(evaluateForm());
     });
 });
-//$('#name').change(function (event)...
-
+function showform(id,form){
+    var formhtml = "<form>\n";
+    for(var i = 0; i<form.length;i++){
+        formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
+        formhtml += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
+        for(var j = 0; j < form[i].options.length; j++){
+            formhtml += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
+        }       
+        formhtml += "</select>\n";
+    }
+    formhtml += "</form>\n";
+    $('#'+id).html(formhtml);
+}
 function printList(data){
     //request php json response
     $.getJSON('requestHandler.php', data, function(responseList){
@@ -50,9 +61,9 @@ function printList(data){
 
 function evaluateForm(){
     //loading parameters into variables
-    return {
-    type: $('#type').val(),
-    status: $('#status').val(),
-    urgency: $('#urgency').val()
-    };
+    formdata = new Object();
+    for(var i = 0; i<form.length;i++){
+        formdata[form[i].id] = $('#'+form[i].id).val();
+    }
+    return formdata;
 }

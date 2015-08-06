@@ -9,33 +9,48 @@
   <body>
     <h1>AKSW Googledoc Topic Viewer</h1>
     <p>What are you looking for?</p>
-    <div class="form">
-      <form>
-        <label for="type">Type of Topic</label>
-        <select name="type" id="type">
-        <option value="all">all</option>
-        <option value="bachelorThesis">Bachelor Thesis</option>
-        <option value="masterThesis">Master Thesis</option>
-        <option value="project">Project</option>
-        <option value="dissertation">Dissertation</option>
-        </select>
-        <label for="status">Topic Status</label>
-        <select name="status" id="status">
-        <option value="all">all</option>
-        <option value="open">open</option>
-        <option value="assigned">assigned</option>
-        <option value="closed">closed</option>
-        </select>
-        <label for="urgency">Urgency level</label>
-        <select name="urgency" id="urgency">
-        <option value="all">all</option>
-        <option value="high">high</option>
-        <option value="normal">normal</option>
-        </select>
-      </form>
+    <div id="123">
     </div>
-    <div id="reply" class="form"></div>
+    <div id="reply"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="formhandler.js"></script>
+    <script>
+    var id = '123';
+    //form: Array(Object{label,id,Array(value,label)})
+    // {value:'all', label:'all'} has to be in every option!
+    var form = new Array(
+        {
+            label: 'Type of Topic',
+            id: 'type',
+            'options': new Array(
+                {value:'all', label:'all'},
+                {value:'bachelorThesis', label:'Bachelor Thesis'},
+                {value:'masterThesis', label:'Master Thesis'},
+                {value:'project', label:'Project'},
+                {value:'dissertation', label:'Dissertation'}
+            )
+        },
+        {
+            label: 'Topic Status',
+            id: 'status',
+            'options': new Array(
+                {value:'all', label:'all'},
+                {value:'open', label:'open'},
+                {value:'assigned', label:'assigned'},
+                {value:'closed', label:'closed'}
+            )
+        },
+        {
+            label: 'Urgency Level',
+            id: 'urgency',
+            'options': new Array(
+                {value:'all', label:'all'},
+                {value:'hig',label:'high'},
+                {value:'normal',label:'normal'}
+            )
+        }
+    );    
+    showform(id,form);
+    </script>
   </body>
 </html>
