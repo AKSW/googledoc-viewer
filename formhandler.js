@@ -1,5 +1,6 @@
-//wait for the document to be loaded
-$(document).ready(function(){
+
+function showform(id,form){
+
     printList(evaluateForm());
     //all selectors in the form
     var selectors = new Array();
@@ -9,15 +10,14 @@ $(document).ready(function(){
     $(selectors.join()).change(function (event){
         printList(evaluateForm());
     });
-});
-function showform(id,form){
+
     var formhtml = "<form>\n";
     for(var i = 0; i<form.length;i++){
         formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
         formhtml += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
         for(var j = 0; j < form[i].options.length; j++){
             formhtml += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
-        }       
+        }
         formhtml += "</select>\n";
     }
     formhtml += "</form>\n";
