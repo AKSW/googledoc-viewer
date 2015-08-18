@@ -1,16 +1,5 @@
-
-function showform(id,form){
-
-    printList(evaluateForm());
-    //all selectors in the form
-    var selectors = new Array();
-        for(var i = 0; i<form.length;i++){
-        selectors.push('#'+form[i].id);
-    }
-    $(selectors.join()).change(function (event){
-        printList(evaluateForm());
-    });
-
+function showform(formId,replyDivId,form){
+    
     var formhtml = "<form>\n";
     for(var i = 0; i<form.length;i++){
         formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
@@ -21,9 +10,17 @@ function showform(id,form){
         formhtml += "</select>\n";
     }
     formhtml += "</form>\n";
-    $('#'+id).html(formhtml);
+    $('#'+formId).html(formhtml);
+    var selectors = new Array();
+    for(var i = 0; i<form.length;i++){
+        selectors.push('#'+form[i].id);
+    }
+    $(selectors.join()).change(function (event){
+        printList(replyDivId,evaluateForm(form));
+    });
+    printList(replyDivId,evaluateForm(form));
 }
-function printList(data){
+function printList(replyDivId,data){
     //request php json response
     $.getJSON('requestHandler.php', data, function(responseList){
         if(responseList.length == 0){
@@ -58,11 +55,11 @@ function printList(data){
             });
             output += "</table>\n";
         };
-        $('#reply').html(output);//print html
+        $('#'+replyDivId).html(output);//print html
     });
 }
 
-function evaluateForm(){
+function evaluateForm(form){
     //loading parameters into variables
     formdata = new Object();
     for(var i = 0; i<form.length;i++){

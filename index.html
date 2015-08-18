@@ -11,14 +11,15 @@
     <p>What are you looking for?</p>
     <div id="123">
     </div>
-    <div id="reply"></div>
+    <div id="245"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="formhandler.js"></script>
     <script>
-    var id = '123';
+    var formId = '123';
+    var replyId = '245';
     //form: Array(Object{label,id,Array(value,label)})
     // {value:'all', label:'all'} has to be in every option!
-    var form = new Array(
+    var formular = new Array(
         {
             label: 'Type of Topic',
             id: 'type',
@@ -50,7 +51,7 @@
             )
         }
     );    
-    showform(id,form);
+    showform(formId,replyId,formular);
     </script>
   </body>
 </html>
