@@ -3,7 +3,7 @@
  * @replyDivId: bind reply to form.change events to separate html div
  * @param form: formular options
  */
-function showform(formId,replyDivId,form){
+function showform(pathToPhpHandler,formId,replyDivId,form){
     var formhtml = "<form>\n";
     for(var i = 0; i<form.length;i++){
         formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
@@ -22,17 +22,17 @@ function showform(formId,replyDivId,form){
     }
     //bind change event
     $(selectors.join()).change(function (event){
-        printList(replyDivId,evaluateForm(form));
+        printList(pathToPhpHandler,replyDivId,evaluateForm(form));
     });
     //print first reply
-    printList(replyDivId,evaluateForm(form));
+    printList(pathToPhpHandler,replyDivId,evaluateForm(form));
 }
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printList(replyDivId,data){
+function printList(pathToPhpHandler,replyDivId,data){
     //request php json response
-    $.getJSON('requestHandler.php', data, function(responseList){
+    $.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
             var output = "<p>Sorry, no topic matched your criteria.</p>";
             }else{
@@ -76,3 +76,4 @@ function evaluateForm(form){
     }
     return formdata;
 }
+

@@ -15,6 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="formhandler.js"></script>
     <script>
+    var phpOrigin = 'requestHandler.php';
     var formId = '123';
     var replyId = '245';
     //form: Array(Object{label,id,Array(value,label)})
@@ -50,8 +51,8 @@
                 {value:'normal',label:'normal'}
             )
         }
-    );    
-    showform(formId,replyId,formular);
+    );  
+    showform(phpOrigin,formId,replyId,formular);
     </script>
   </body>
 </html>
