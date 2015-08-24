@@ -136,7 +136,7 @@ class DocumentHandler{
             $tmpdescription = $file->getDescription();
             $constraintViolation = false;
             foreach($constraints as $key => $value){
-                if(strpos($tmpdescription, $key.'='.$value.';') === FALSE){
+                if(stripos($tmpdescription, $key.'='.$value.';') === FALSE){
                     $constraintViolation = true;
                     break; 
                 }    
