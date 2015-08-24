@@ -18,14 +18,14 @@ function cors() {
 
     // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
-        //header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}"); unsafe, can allow session stealing
-        header("Acess-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}"); // unsafe, can allow session stealing
+        //header("Acess-Control-Allow-Origin: *");
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
 
     // Access-Control headers are received during OPTIONS requests
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (strtolower($_SERVER['REQUEST_METHOD']) == 'options') {
 
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -38,18 +38,19 @@ function cors() {
 
 }
 
+cors();
+
 require_once 'config.php'; //loading project credentials
 require_once 'documentHandler.php';
 
-cors();
 
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass,$grant,$user_to_impersonate);
 
-if($_GET['action'] == "getSupervisors"){
+if(isset($_GET['action']) && $_GET['action'] == "getSupervisors"){
     $supervisors = $documentHandler->getAllSupervisors();
     echo json_encode($supervisors);
-}else{
+} else {
     //building file constraints from GET parameters
     $constraints = array();
     foreach($_GET as $key => $value){
