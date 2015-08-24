@@ -4,28 +4,41 @@
  * @param form: formular options
  */
 function showform(pathToPhpHandler,formId,replyDivId,form){
-    var formhtml = "<form>\n";
-    for(var i = 0; i<form.length;i++){
-        formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
-        formhtml += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
-        for(var j = 0; j < form[i].options.length; j++){
-            formhtml += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
+    $.getJSON(pathToPhpHandler+"?action=getSupervisors", function(supervisorsList){
+        //adding supervisors to form
+        var supervisorOptions = new Array({value:'all', label:'all'});
+        $.each(supervisorsList,function(id,element){
+            supervisorOptions.push({value:element, label:element});
+        });
+        form.push({
+            label: 'Supervisor',
+            id: 'supervisor',
+            'options': supervisorOptions
+        });
+
+        var formhtml = "<form>\n";
+        for(var i = 0; i<form.length;i++){
+            formhtml += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
+            formhtml += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
+            for(var j = 0; j < form[i].options.length; j++){
+                formhtml += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
+            }
+            formhtml += "</select>\n";
         }
-        formhtml += "</select>\n";
-    }
-    formhtml += "</form>\n";
-    $('#'+formId).html(formhtml); //output
-    var selectors = new Array();
-    for(var i = 0; i<form.length;i++){
-        //select ids of dropdown fields
-        selectors.push('#'+form[i].id);
-    }
-    //bind change event
-    $(selectors.join()).change(function (event){
+        formhtml += "</form>\n";
+        $('#'+formId).html(formhtml); //output
+        var selectors = new Array();
+        for(var i = 0; i<form.length;i++){
+            //select ids of dropdown fields
+            selectors.push('#'+form[i].id);
+        }
+        //bind change event
+        $(selectors.join()).change(function (event){
+            printList(pathToPhpHandler,replyDivId,evaluateForm(form));
+        });
+        //print first reply
         printList(pathToPhpHandler,replyDivId,evaluateForm(form));
     });
-    //print first reply
-    printList(pathToPhpHandler,replyDivId,evaluateForm(form));
 }
 /**
  * generate reply html tabular, print to replyDiv

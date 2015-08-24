@@ -151,6 +151,27 @@ class DocumentHandler{
             return NULL;
         }    
     }
+    /**
+     * searches all files for supervisor-description tags and collects entries
+     * @return: array of supervisors
+     */
+    public function getAllSupervisors(){
+        $supervisors = array();
+        foreach($this->files as $file){
+            $tmpdescriptionarray = explode(";",$file->getDescription());
+            foreach($tmpdescriptionarray as $tag){
+                $x = explode("=",$tag);
+                if($x[0] == "supervisor"){
+                    if(!in_array($x[1],$supervisors)){
+                        array_push($supervisors,$x[1]);
+                    }
+                }else{
+                    continue;
+                }     
+            }
+        }
+        return $supervisors;
+    }   
     public function getTitleById($id){
         return $this->searchById($id)->getTitle();
     }
