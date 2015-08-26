@@ -155,22 +155,25 @@ class DocumentHandler{
      * searches all files for supervisor-description tags and collects entries
      * @return: array of supervisors
      */
-    public function getAllSupervisors(){
-        $supervisors = array();
+    public function getTags(){
+        $tmpTags = array();
         foreach($this->files as $file){
-            $tmpdescriptionarray = explode(";",$file->getDescription());
-            foreach($tmpdescriptionarray as $tag){
-                $x = explode("=",$tag);
-                if($x[0] == "supervisor"){
-                    if(!in_array($x[1],$supervisors)){
-                        array_push($supervisors,$x[1]);
-                    }
-                }else{
-                    continue;
-                }     
+            $tmpDescription = json_decode($file->getDescription(),true);
+            if($tmpDescription != false){ //no json error
+                $tmpTags = array_merge_recursive($tmpTags,$tmpDescription);
+            }else{
+                continue;
             }
         }
-        return $supervisors;
+        $tags = array();
+        foreach($tmpTags as $key=>$value){
+            if(is_array($value)){
+                $tags[$key] = array_values(array_unique($value));
+            }else{
+                $tags[$key] = $value;
+            }
+        }
+        return $tags;
     }   
     public function getTitleById($id){
         return $this->searchById($id)->getTitle();

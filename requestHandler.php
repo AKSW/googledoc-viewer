@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors','on');
+ini_set('display_errors','on');
 require_once 'vendor/autoload.php';
 
 /**
@@ -25,7 +25,7 @@ function cors() {
     }
 
     // Access-Control headers are received during OPTIONS requests
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -41,14 +41,14 @@ function cors() {
 require_once 'config.php'; //loading project credentials
 require_once 'documentHandler.php';
 
-cors();
+//cors();
 
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass,$grant,$user_to_impersonate);
 
-if($_GET['action'] == "getSupervisors"){
-    $supervisors = $documentHandler->getAllSupervisors();
-    echo json_encode($supervisors);
+if(isset($_GET['action']) && $_GET['action'] == "getTags"){
+    $tags = $documentHandler->getTags();
+    echo json_encode($tags);
 }else{
     //building file constraints from GET parameters
     $constraints = array();
