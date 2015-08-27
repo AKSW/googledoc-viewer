@@ -53,7 +53,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     //building file constraints from GET parameters
     $constraints = array();
     foreach($_GET as $key => $value){
-        if($value != 'all')
+        if($value != 'all' && $value != "")
             $constraints[$key] = $value;
     }
 

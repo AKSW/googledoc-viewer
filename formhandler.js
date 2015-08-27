@@ -1,4 +1,7 @@
-
+//TODO Filter by Supervisor bugged
+//TODO invisible html formular option
+//TODO wenn nur zwei optionen, dann unsichtbar im html
+//TODO Beschreibung abschicken
 function showform(pathToPhpHandler,formId,replyDivId,form){
     if(!form){
       var form = generateForm(phpOrigin);
@@ -67,6 +70,7 @@ function generateForm(pathToPhpHandler){
  */
 function printList(pathToPhpHandler,replyDivId,data){
     //request php json response
+    console.log(data);
     $.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
             var output = "<p>Sorry, no topic matched your criteria.</p>";

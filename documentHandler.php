@@ -133,10 +133,15 @@ class DocumentHandler{
             $files = $this->files;
         }
         foreach($this->files as $file){
-            $tmpdescription = $file->getDescription();
+            $tmpdescription = json_decode($file->getDescription(),true);
+            if($tmpdescription == null){
+                continue;
+            }
             $constraintViolation = false;
             foreach($constraints as $key => $value){
-                if(stripos($tmpdescription, $key.'='.$value.';') === FALSE){
+              if((!isset($tmpdescription[$key]) || $tmpdescription[$key] != $value)&&
+                 (!isset($tmpdescription[$key]) || !is_array($tmpdescription[$key]) 
+                                                || !in_array($value,$tmpdescription  [$key]))){
                     $constraintViolation = true;
                     break; 
                 }    
