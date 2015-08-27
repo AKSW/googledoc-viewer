@@ -11,12 +11,17 @@ function showform(pathToPhpHandler,formId,replyDivId,form){
     }else{
         var output = "<form>\n";
         for(var i = 0; i<form.length;i++){
-            output += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
-            output += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
-            for(var j = 0; j < form[i].options.length; j++){
-                output += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
-            }       
-            output += "</select>\n";
+            if(form[i].options.length == 1){
+                output += "<input type=\"hidden\" id=\""+form[i].id+
+                "\"value=\""+form[i].options[0].value+"\">\n";
+            }else{
+                output += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
+                output += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
+                for(var j = 0; j < form[i].options.length; j++){
+                    output += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
+                }       
+                output += "</select>\n";
+            }
         }
         output += "</form>\n";
         $('#'+formId).html(output);
@@ -40,6 +45,7 @@ function evaluateForm(form){
     for(var i = 0; i<form.length;i++){
         formdata[form[i].id] = $('#'+form[i].id).val();
     }
+
     return formdata;
 }
 function generateForm(pathToPhpHandler){
@@ -70,7 +76,6 @@ function generateForm(pathToPhpHandler){
  */
 function printList(pathToPhpHandler,replyDivId,data){
     //request php json response
-    console.log(data);
     $.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
             var output = "<p>Sorry, no topic matched your criteria.</p>";

@@ -28,7 +28,6 @@
                 {value:'all', label:'all'},
                 {value:'bachelorThesis', label:'Bachelor Thesis'},
                 {value:'masterThesis', label:'Master Thesis'},
-                {value:'project', label:'Project'},
                 {value:'dissertation', label:'Dissertation'}
             )
         },
@@ -43,16 +42,14 @@
             )
         },
         {
-            label: 'Urgency Level',
-            id: 'urgency',
+            label: 'supervisor',
+            id: 'supervisor',
             'options': new Array(
-                {value:'all', label:'all'},
-                {value:'high',label:'high'},
-                {value:'normal',label:'normal'}
+                {value:'Franz Teichmann', label:'Franz Teichmann'}
             )
         }
     );
-    showform(phpOrigin,formId,replyId);
+    showform(phpOrigin,formId,replyId,formular);
     //generateForm(phpOrigin);
     </script>
   </body>
