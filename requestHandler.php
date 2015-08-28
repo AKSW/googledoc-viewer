@@ -22,7 +22,7 @@ function cors() {
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
     // Access-Control headers are received during OPTIONS requests
-    if (strtolower($_SERVER['REQUEST_METHOD']) == 'options') {
+    if (isset($_SERVER['REQUEST_METHOD']) && (strtolower($_SERVER['REQUEST_METHOD']) == 'options')) {
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
@@ -35,9 +35,9 @@ require_once 'config.php'; //loading project credentials
 require_once 'documentHandler.php';
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass,$grant,$user_to_impersonate);
-if(isset($_GET['action']) && $_GET['action'] == "getSupervisors"){
-    $supervisors = $documentHandler->getAllSupervisors();
-    echo json_encode($supervisors);
+if(isset($_GET['action']) && $_GET['action'] == "getTags"){
+    $tags = $documentHandler->getTags();
+    echo json_encode($tags);
 } else {
     //building file constraints from GET parameters
     $constraints = array();

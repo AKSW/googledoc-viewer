@@ -1,6 +1,3 @@
-//TODO Filter by Supervisor bugged
-//TODO invisible html formular option
-//TODO wenn nur zwei optionen, dann unsichtbar im html
 //TODO Beschreibung abschicken
 function showform(pathToPhpHandler,formId,replyDivId,form){
     if(!form){
