@@ -157,7 +157,7 @@ class DocumentHandler{
         }    
     }
     /**
-     * searches all files for supervisor-description tags and collects entries
+     * searches all files for description tags and collects entries
      * @return: array of supervisors
      */
     public function getTags(){

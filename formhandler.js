@@ -1,4 +1,5 @@
-//TODO Beschreibung abschicken
+//TODO Dokumentation: json
+//TODO inline documentation
 function showform(pathToPhpHandler,formId,replyDivId,form){
     if(!form){
       var form = generateForm(phpOrigin);
@@ -54,14 +55,14 @@ function generateForm(pathToPhpHandler){
             var formTag = {};
             formTag['label']=jsonId;
             formTag['id']=jsonId;
+            var tagOptions = new Array({value:'all', label:'all'});
             $.each(jsonTag,function(jsonTagOptionId,jsonTagOption){
-                var tagOptions = new Array({value:'all', label:'all'});
                 tagOptions.push({value:jsonTagOption, label:jsonTagOption});
                 formTag['options']=tagOptions;
             });
             form.push(formTag);
         });
-        //console.log(JSON.stringify(form,null,2));
+        console.log(JSON.stringify(form,null,2));
         p.resolve(form); 
     });
     return p.promise();
