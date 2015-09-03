@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors','on');
+//ini_set('display_errors','on');
 require_once 'vendor/autoload.php';
 /**
  *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
