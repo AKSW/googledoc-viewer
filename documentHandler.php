@@ -1,5 +1,5 @@
 <?php
-
+//TODO: make getTags work on sublist provided by search for specific tag
 /**
  * class for providing methods on the documents of a google drive
  * 
@@ -160,9 +160,17 @@ class DocumentHandler{
      * searches all files for description tags and collects entries
      * @return: array of supervisors
      */
-    public function getTags(){
+    public function getTags($sublist = NULL){
+        if($sublist){
+            $tmpFilesList = array();
+            foreach($sublist as $tmpId){
+               array_push($tmpFilesList,$this->searchById($tmpId));
+            }
+        }else{
+            $tmpFilesList = $this->files;
+        }
         $tmpTags = array();
-        foreach($this->files as $file){
+        foreach($tmpFilesList as $file){
             $tmpDescription = json_decode($file->getDescription(),true);
             if($tmpDescription != false){ //no json error
                 $tmpTags = array_merge_recursive($tmpTags,$tmpDescription);

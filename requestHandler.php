@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors','on');
+ini_set('display_errors','on');
 require_once 'vendor/autoload.php';
 /**
  *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
@@ -38,13 +38,13 @@ $documentHandler = new documentHandler($client_email,$scopes,$private_key,$priva
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = $documentHandler->getTags();
     echo json_encode($tags);
-} else {
-    //building file constraints from GET parameters
-    $constraints = array();
-    foreach($_GET as $key => $value){
-        if($value != 'all')
-            $constraints[$key] = $value;
-    }
+}elseif(isset($_GET['action']) && $_GET['action'] == "getMissingTags"){
+    $constraints = buildConstraints($_GET);
+    $result = $documentHandler->searchByDescription($constraints);
+    $tags = $documentHandler->getTags($result);
+    echo json_encode($tags);
+}else{
+    $constraints = buildConstraints($_GET);
     //searching files that match these constraints
     $result = $documentHandler->searchByDescription($constraints);
     $response = array();
@@ -60,4 +60,14 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
         }
     }
     echo json_encode($response);
+}
+
+function buildConstraints($data){
+    //building file constraints from GET parameters
+    $constraints = array();
+    foreach($data as $key => $value){
+        if($value != 'all' && $key != 'action' && $value != "")
+            $constraints[$key] = $value;
+    }
+    return $constraints;
 }

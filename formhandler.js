@@ -1,12 +1,6 @@
-function showform(pathToPhpHandler,formId,replyDivId,form){
-    if(!form){
-      //if form is not given via parameter, it has to be generated dynamically
-      var form = generateForm(phpOrigin);
-      form.done(function(form){
-      //printing form after generation by self-referring function
-        showform(pathToPhpHandler,formId,replyId,form);
-      });
-    }else{
+function showform(pathToPhpHandler,formId,replyDivId,selector){
+    var form = generateForm(phpOrigin,selector);
+    form.done(function(form){
         //actual form html generation
         var output = "<form>\n";
         for(var i = 0; i<form.length;i++){
@@ -37,7 +31,7 @@ function showform(pathToPhpHandler,formId,replyDivId,form){
         });
         //print first reply
         printList(pathToPhpHandler,replyDivId,evaluateForm(form));
-    }
+    });
 }
 
 function evaluateForm(form){
@@ -48,20 +42,38 @@ function evaluateForm(form){
     }
     return formdata;
 }
-function generateForm(pathToPhpHandler){
+function generateForm(pathToPhpHandler,selector){
     var form = new Array();
     var p = $.Deferred(); //for asynchron calculation
-    $.getJSON(pathToPhpHandler+"?action=getTags", function(jsonTagList){
+    var requestQuery = pathToPhpHandler;
+    if(selector){
+        requestQuery += "?action=getMissingTags";
+        var selectorKey;
+        var selectorValue;
+        //add all selector elements to requestQuery
+        $.each(selector,function(key,value){
+            requestQuery += "&"+key+"="+value;
+            selectorKey = key;
+            selectorValue = value;
+        });
+    }else{
+            requestQuery += "?action=getTags";
+    }
+    $.getJSON(requestQuery, function(jsonTagList){
         var form = new Array();
         $.each(jsonTagList,function(jsonId,jsonTag){
             var formTag = {};
             formTag['label']=jsonId;
             formTag['id']=jsonId;
-            var tagOptions = new Array({value:'all', label:'all'});
-            $.each(jsonTag,function(jsonTagOptionId,jsonTagOption){
-                tagOptions.push({value:jsonTagOption, label:jsonTagOption});
-                formTag['options']=tagOptions;
-            });
+            if(jsonId == selectorKey){
+                var tagOptions = new Array({value:selectorValue});
+            }else{
+                var tagOptions = new Array({value:'all', label:'all'});
+                $.each(jsonTag,function(jsonTagOptionId,jsonTagOption){
+                        tagOptions.push({value:jsonTagOption, label:jsonTagOption});
+                });
+            }
+            formTag['options']=tagOptions;
             form.push(formTag);
         });
         //console.log(JSON.stringify(form,null,2));
