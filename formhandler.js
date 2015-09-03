@@ -1,15 +1,17 @@
-//TODO Dokumentation: json
-//TODO inline documentation
 function showform(pathToPhpHandler,formId,replyDivId,form){
     if(!form){
+      //if form is not given via parameter, it has to be generated dynamically
       var form = generateForm(phpOrigin);
       form.done(function(form){
+      //printing form after generation by self-referring function
         showform(pathToPhpHandler,formId,replyId,form);
       });
     }else{
+        //actual form html generation
         var output = "<form>\n";
         for(var i = 0; i<form.length;i++){
             if(form[i].options.length == 1){
+                //hide one-option selectors
                 output += "<input type=\"hidden\" id=\""+form[i].id+
                 "\"value=\""+form[i].options[0].value+"\">\n";
             }else{
@@ -22,13 +24,14 @@ function showform(pathToPhpHandler,formId,replyDivId,form){
             }
         }
         output += "</form>\n";
+        //html output
         $('#'+formId).html(output);
         var selectors = new Array();
         for(var i = 0; i<form.length;i++){
             //select ids of dropdown fields
             selectors.push('#'+form[i].id);
         }
-        //bind change event
+        //binding change event
         $(selectors.join()).change(function (event){
             printList(pathToPhpHandler,replyDivId,evaluateForm(form));
         });
@@ -43,7 +46,6 @@ function evaluateForm(form){
     for(var i = 0; i<form.length;i++){
         formdata[form[i].id] = $('#'+form[i].id).val();
     }
-
     return formdata;
 }
 function generateForm(pathToPhpHandler){
@@ -62,7 +64,7 @@ function generateForm(pathToPhpHandler){
             });
             form.push(formTag);
         });
-        console.log(JSON.stringify(form,null,2));
+        //console.log(JSON.stringify(form,null,2));
         p.resolve(form); 
     });
     return p.promise();
