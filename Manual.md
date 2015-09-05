@@ -12,14 +12,19 @@ In the AKSW-group we have a lot of different topics currently researched by a gr
 
 # Topic Property System #
 
-To implement a basic search system, properties need to be added to the description field of your document. Please use the following syntax to make your document searchable.
+To implement a basic search system, properties need to be added to the description field of your document. Please use syntactically correct JSON to do so, e.g.
 
-    property1=value1;property2=value2;
+    {
+    "type" : "Bachelor Thesis",
+    "status" : "open",
+    "supervisor":
+    ["Supervisor 1","Supervisor 2"]
+    }
 
-The following properties are implemented and a number of these can be chosen.
+The following properties are recommended:
 
 | property | status 1 | status 2 | status 3|status 4|
 |---|---|---| ---| --- |
 | status | open | assigned | closed | --- |
-| type | bachelorThesis | masterThesis | project | dissertation |
+| type | Bachelor Thesis | Master Thesis | Project | Dissertation |
 | urgency | high | normal | --- |
