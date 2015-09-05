@@ -2,22 +2,22 @@ function showform(pathToPhpHandler,formId,replyDivId,selector){
     var form = generateForm(phpOrigin,selector);
     form.done(function(form){
         //actual form html generation
-        var output = "<form>\n";
+        var output = "<form>\n<table>\n";
         for(var i = 0; i<form.length;i++){
             if(form[i].options.length == 1){
                 //hide one-option selectors
                 output += "<input type=\"hidden\" id=\""+form[i].id+
                 "\"value=\""+form[i].options[0].value+"\">\n";
             }else{
-                output += "<label for=\""+form[i].id+"\">"+form[i].label+"</label>\n";
-                output += "<select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
+                output += "<tr><td>\n"+form[i].label+"</td>\n";
+                output += "<td><select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
                 for(var j = 0; j < form[i].options.length; j++){
                     output += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
                 }       
-                output += "</select>\n";
+                output += "</select></td></tr>\n";
             }
         }
-        output += "</form>\n";
+        output += "</table>\n</form>\n";
         //html output
         $('#'+formId).html(output);
         var selectors = new Array();
