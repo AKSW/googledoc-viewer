@@ -1,4 +1,3 @@
-//TODO: supervisor in output
 function showform(pathToPhpHandler,formId,replyDivId,selector){
     var form = generateForm(phpOrigin,selector);
     form.done(function(form){
@@ -28,10 +27,11 @@ function showform(pathToPhpHandler,formId,replyDivId,selector){
         }
         //binding change event
         $(selectors.join()).change(function (event){
-            printList(pathToPhpHandler,replyDivId,evaluateForm(form));
+            printList(pathToPhpHandler,replyDivId,evaluateForm(form),selector);
         });
+
         //print first reply
-        printList(pathToPhpHandler,replyDivId,evaluateForm(form));
+        printList(pathToPhpHandler,replyDivId,evaluateForm(form),selector);
     });
 }
 
@@ -87,7 +87,10 @@ function generateForm(pathToPhpHandler,selector){
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printList(pathToPhpHandler,replyDivId,data){
+function printList(pathToPhpHandler,replyDivId,data,selector){
+    if(!selector){
+        var selector = 'no selector';
+    }
     //request php json response
     $.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
@@ -101,18 +104,32 @@ function printList(pathToPhpHandler,replyDivId,data){
                 //add keys as first table line
                 if(!keysPrinted){
                     $.each(documentInstance,function(key,value){
+                    if(!value || selector[key.toLowerCase()] != undefined){
+                        return;
+                    }
                     output += "<th>"+key+"</th>";
                     });
                     keysPrinted = true;
                     output += "</tr>\n<tr>";
                 }
                 $.each(documentInstance,function(key,value){
-                    if(!value){
+                    if(!value || selector[key.toLowerCase()] != undefined){
                         return;
                     }
                     output += "<td>";
                     if(key == "Download"){
                         output += "<a href="+value+">PDF</a>";
+                    }else if(key == "Supervisor"){
+                        if(value.constructor === Array){
+                            for(var i=0; i<value.length;i++){
+                                output += "<a href=http://aksw.org/"+value[i]+">"+value[i]+"</a></br>";
+                            }
+                        }else if(value == "n.a."){
+                            output += value;
+                        }else{
+
+                            output += "<a href=http://aksw.org/"+value+">"+value+"</a>";
+                        }
                     }else{
                         output += value;
                     }
