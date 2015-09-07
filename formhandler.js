@@ -1,3 +1,4 @@
+//TODO: supervisor in output
 function showform(pathToPhpHandler,formId,replyDivId,selector){
     var form = generateForm(phpOrigin,selector);
     form.done(function(form){
