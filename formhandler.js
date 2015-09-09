@@ -1,5 +1,6 @@
 function showform(pathToPhpHandler,formId,replyDivId,selector){
-    var form = generateForm(phpOrigin,selector);
+
+    var form = generateForm(pathToPhpHandler,selector);
     form.done(function(form){
         //actual form html generation
         var output = "<form>\n<table>\n";
@@ -70,6 +71,9 @@ function generateForm(pathToPhpHandler,selector){
                 var tagOptions = new Array({value:selectorValue});
             }else{
                 var tagOptions = new Array({value:'all', label:'all'});
+                if(!$.isArray(jsonTag){
+                    jsonTag = [jsonTag];
+                }
                 $.each(jsonTag,function(jsonTagOptionId,jsonTagOption){
                         tagOptions.push({value:jsonTagOption, label:jsonTagOption});
                 });
