@@ -1,5 +1,4 @@
-function showform(pathToPhpHandler,formId,replyDivId,selector){
-
+function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
     var form = generateForm(pathToPhpHandler,selector);
     form.done(function(form){
         //actual form html generation
@@ -10,10 +9,11 @@ function showform(pathToPhpHandler,formId,replyDivId,selector){
                 output += "<input type=\"hidden\" id=\""+form[i].id+
                 "\"value=\""+form[i].options[0].value+"\">\n";
             }else{
-                output += "<tr><td>\n"+form[i].label+"</td>\n";
-                output += "<td><select name=\""+form[i].id+"\" id=\""+form[i].id+"\">\n";
+                output += "<tr><td>\n"+findLabel(form[i].label,labels)+"</td>\n";
+                output += "<td><select name=\""+findLabel(form[i].id,labels)+"\" id=\""+form[i].id+"\">\n";
                 for(var j = 0; j < form[i].options.length; j++){
-                    output += "<option value=\""+form[i].options[j].value+"\">"+form[i].options[j].label+"</option>\n";
+                    output += "<option value=\""+form[i].options[j].value+"\">"
+                           +  findLabel(form[i].options[j].label,labels)+"</option>\n";
                 }       
                 output += "</select></td></tr>\n";
             }
@@ -28,11 +28,11 @@ function showform(pathToPhpHandler,formId,replyDivId,selector){
         }
         //binding change event
         $(selectors.join()).change(function (event){
-            printList(pathToPhpHandler,replyDivId,evaluateForm(form),selector);
+            printList(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
         });
 
         //print first reply
-        printList(pathToPhpHandler,replyDivId,evaluateForm(form),selector);
+        printList(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
     });
 }
 
@@ -71,7 +71,7 @@ function generateForm(pathToPhpHandler,selector){
                 var tagOptions = new Array({value:selectorValue});
             }else{
                 var tagOptions = new Array({value:'all', label:'all'});
-                if(!$.isArray(jsonTag){
+                if(!$.isArray(jsonTag)){
                     jsonTag = [jsonTag];
                 }
                 $.each(jsonTag,function(jsonTagOptionId,jsonTagOption){
@@ -91,7 +91,7 @@ function generateForm(pathToPhpHandler,selector){
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printList(pathToPhpHandler,replyDivId,data,selector){
+function printList(pathToPhpHandler,replyDivId,data,labels,selector){
     if(!selector){
         var selector = 'no selector';
     }
@@ -111,7 +111,7 @@ function printList(pathToPhpHandler,replyDivId,data,selector){
                     if(!value || selector[key.toLowerCase()] != undefined){
                         return;
                     }
-                    output += "<th>"+key+"</th>";
+                    output += "<th>"+findLabel(key,labels)+"</th>";
                     });
                     keysPrinted = true;
                     output += "</tr>\n<tr>";
@@ -121,21 +121,21 @@ function printList(pathToPhpHandler,replyDivId,data,selector){
                         return;
                     }
                     output += "<td>";
-                    if(key == "Download"){
+                    if(key == "download"){
                         output += "<a href="+value+">PDF</a>";
-                    }else if(key == "Supervisor"){
+                    }else if(key == "supervisor"){
                         if(value.constructor === Array){
                             for(var i=0; i<value.length;i++){
-                                output += "<a href=http://aksw.org/"+value[i]+">"+value[i]+"</a></br>";
+                                output += "<a href=http://aksw.org/"+value[i]+">"+findLabel(value[i],labels)+"</a></br>";
                             }
                         }else if(value == "n.a."){
-                            output += value;
+                            output += findLabel(value,labels);
                         }else{
 
-                            output += "<a href=http://aksw.org/"+value+">"+value+"</a>";
+                            output += "<a href=http://aksw.org/"+value+">"+findLabel(value,labels)+"</a>";
                         }
                     }else{
-                        output += value;
+                        output += findLabel(value,labels);
                     }
                     output += "</td>";
                 });
@@ -145,4 +145,11 @@ function printList(pathToPhpHandler,replyDivId,data,selector){
         };
         $('#'+replyDivId).html(output);//print html
     });
+}
+function findLabel(needle,haystack){
+    if(haystack[needle]){
+        return haystack[needle];
+    }else{
+        return needle;
+    }
 }

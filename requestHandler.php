@@ -54,11 +54,11 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
             $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
             if($title && $download){
-                array_push($response, array('Title' => $title,
-                                            'Status' => $description['status']?$description['status']:'n.a.',
-                                            'Type' => isset($description['type'])?$description['type']:'t.b.a.',
-                                            'Supervisor' => isset($description['supervisor'])?$description['supervisor']:'n.a.',
-                                            'Download' => $download));
+                array_push($response, array('title' => $title,
+                                            'status' => $description['status']?$description['status']:'n.a.',
+                                            'type' => isset($description['type'])?$description['type']:'t.b.a.',
+                                            'supervisor' => isset($description['supervisor'])?$description['supervisor']:'n.a.',
+                                            'download' => $download));
             }else{
                 continue;
             }
