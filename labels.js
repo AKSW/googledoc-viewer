@@ -1,5 +1,3 @@
 var labels = {
-    "type" : "Kategorie",
-    "Project" : "Praktikum",
-    "supervisor" : "Betreuer"
+    "Sorry, no topic matched your criteria." : "Sorry, no topic matched your criteria."
 };

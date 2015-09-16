@@ -98,7 +98,7 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
     //request php json response
     $.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
-            var output = "<p>Sorry, no topic matched your criteria.</p>";
+            var output = "<p>"+findLabel('Sorry, no topic matched your criteria.',labels)+"</p>";
             }else{
             //start generating output table
             var output = "<table>\n";
