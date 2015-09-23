@@ -1,7 +1,7 @@
 ## AKSW Google Document Viewer ##
 
 The purpose of this application is to enable a view of the bachelor and master theses offered by the AKSW group at the University of Leipzig.
-These theses are to be managed and organized in a collaborative Google document folder. This tool uses the Google Drive REST API for PHP to nagivate inside this folder and to display the contents on our website.
+These are to be managed and organized in a collaborative Google document folder. This tool uses the Google Drive REST API for PHP to nagivate inside this folder and JavsScript with JQuery to display the contents on our website.
 
 # dependencies #
 
