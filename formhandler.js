@@ -49,26 +49,47 @@ function generateForm(pathToPhpHandler,selector){
     var p = $.Deferred(); //for asynchron calculation
     var requestQuery = pathToPhpHandler;
     if(selector){
+        var selectorKeys = new Array();
+        var selectorValues = new Array(); 
         requestQuery += "?action=getMissingTags";
-        var selectorKey;
-        var selectorValue;
         //add all selector elements to requestQuery
         $.each(selector,function(key,value){
-            requestQuery += "&"+key+"="+value;
-            selectorKey = key;
-            selectorValue = value;
+            selectorKeys.push(key);
+            if($.isArray(value)){
+                var valueslength = value.length;
+                var serializedArray = key+":"+valueslength+"{";
+                selectorValues[key] = new Array();
+                for(var i=0;i<valueslength;i++){
+                    serializedArray += "i:"+i+";s:"+value[i].length+":\""+value[i]+"\";";
+                    selectorValues[key].push(value[i]);
+                }
+                serializedArray += "}";
+                requestQuery += "&"+key+"="+serializedArray;
+            }else{
+                requestQuery += "&"+key+"="+value;
+                selectorValues[key] = value;
+            }
         });
     }else{
             requestQuery += "?action=getTags";
     }
     $.getJSON(requestQuery, function(jsonTagList){
+        
         var form = new Array();
         $.each(jsonTagList,function(jsonId,jsonTag){
             var formTag = {};
             formTag['label']=jsonId;
             formTag['id']=jsonId;
-            if(jsonId == selectorKey){
-                var tagOptions = new Array({value:selectorValue});
+            
+            if($.inArray(jsonId,selectorKeys)>-1){
+                var tagOptions = new Array();
+                if($.isArray(selectorValues[jsonId])){
+                    $.each(selectorValues[jsonId],function(key,selectorTagOption){
+                            tagOptions.push({value:selectorTagOption, label:selectorTagOption});
+                    });
+                }else{
+                    tagOptions.push({value:selectorValues[jsonId], label:selectorValues[jsonId]});
+                }
             }else{
                 var tagOptions = new Array({value:'all', label:'all'});
                 if(!$.isArray(jsonTag)){
@@ -78,6 +99,7 @@ function generateForm(pathToPhpHandler,selector){
                         tagOptions.push({value:jsonTagOption, label:jsonTagOption});
                 });
             }
+            
             formTag['options']=tagOptions;
             form.push(formTag);
         });
@@ -108,7 +130,7 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
                 //add keys as first table line
                 if(!keysPrinted){
                     $.each(documentInstance,function(key,value){
-                    if(!value || selector[key.toLowerCase()] != undefined){
+                    if(!value){
                         return;
                     }
                     output += "<th>"+findLabel(key,labels)+"</th>";
@@ -117,9 +139,6 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
                     output += "</tr>\n<tr>";
                 }
                 $.each(documentInstance,function(key,value){
-                    if(!value || selector[key.toLowerCase()] != undefined){
-                        return;
-                    }
                     output += "<td>";
                     if(key == "download"){
                         output += "<a href="+value+">PDF</a>";

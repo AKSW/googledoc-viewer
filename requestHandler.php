@@ -66,11 +66,15 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     }
     echo json_encode($response);
 }
-
+function isSerialized($str) {
+    return ($str == serialize(false) || @unserialize($str) !== false);
+}
 function buildConstraints($data){
     //building file constraints from GET parameters
     $constraints = array();
     foreach($data as $key => $value){
+        if(isSerialized($value))
+            $value = unserialize($value)[0];//not 100% precise, we just take the first array value
         if($value != 'all' && $key != 'action' && $value != "")
             $constraints[$key] = $value;
     }
