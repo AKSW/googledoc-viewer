@@ -17,9 +17,7 @@ These are to be managed and organized in a collaborative Google document folder.
 4. In the next screen you can select which service account to use (App Engine, Compute Engine or a new Service Account)
 5. Generate a new .p12 key and keep it save
 6. Copy the `config.tpl` file to `config.php` and add the given project credentials
-7. if you don't want to impersonate a specific user, leave `$user_to_impersonate = '';` blank, create a new folder in your google drive and share with the google service account email adress or add a folder to your drive which the google service account can access
-
-note: there seems to be a problem with impersonating a @gmail adress
+7. Create a new folder in your google drive and share it with the google service account email adress or add a folder to your drive which the google service account can access
 
 # manual #
 

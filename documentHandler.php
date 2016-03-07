@@ -29,8 +29,7 @@ class DocumentHandler{
         $scopes,
         $private_key, //P12 key downloaded from project credentials
         $privatekey_pass,
-        'http://oauth.net/grant_type/jwt/1.0/bearer', // Default grant type
-        $user_to_impersonate // email adress
+        'http://oauth.net/grant_type/jwt/1.0/bearer' // Default grant type
         );
         $this->client = new Google_Client();
         $this->client->setAssertionCredentials($this->credentials);
