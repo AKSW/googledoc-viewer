@@ -16,21 +16,15 @@ class DocumentHandler{
     /**
      * instantiate every object with a working google api service
      *
+     * @param $client_email string service account email adress
+     * @param $scopes string uri of the scopes
+     * @param $private_key string path to the P12 key file downloaded from project credentials
+     * @param $privatekey_pass string password of the P12 key
+     * @param $grant string uri of the grant type
      */
-    public function __construct($client_email, //service account email adress
-    $scopes, //scopes
-    $private_key, //P12 key downloaded from project credentials
-    $privatekey_pass,
-    $grant, // grant type
-    $user_to_impersonate)// email adress
+    public function __construct($client_email, $scopes, $private_key, $privatekey_pass, $grant = 'http://oauth.net/grant_type/jwt/1.0/bearer')
     {
-        $this->credentials = new Google_Auth_AssertionCredentials(
-        $client_email, //service account email adress
-        $scopes,
-        $private_key, //P12 key downloaded from project credentials
-        $privatekey_pass,
-        'http://oauth.net/grant_type/jwt/1.0/bearer' // Default grant type
-        );
+        $this->credentials = new Google_Auth_AssertionCredentials($client_email, $scopes, $private_key, $privatekey_pass, $grant);
         $this->client = new Google_Client();
         $this->client->setAssertionCredentials($this->credentials);
         if ($this->client->getAuth()->isAccessTokenExpired()) {

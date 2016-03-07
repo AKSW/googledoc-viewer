@@ -34,7 +34,7 @@ cors();
 require_once 'config.php'; //loading project credentials
 require_once 'documentHandler.php';
 //initializing documentHandler object
-$documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass,$grant,$user_to_impersonate);
+$documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = $documentHandler->getTags();
     echo json_encode($tags);
