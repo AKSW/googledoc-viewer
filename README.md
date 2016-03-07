@@ -10,13 +10,14 @@ These are to be managed and organized in a collaborative Google document folder.
 
 # deploy #
 
-0. git clone, check dependencies and/or use composer.json
-1. register at the google developer console (https://console.developers.google.com/) and create a project
-2. check "APIs & auth" and search for "Drive API" and enable it
-3. go "Credentials" and generate a new ID, choose "Service account"
-4. generate a new .p12 key and keep it save
-5. fill in the config with the given project credentials and rename it to config.php
-6. if you don't want to impersonate a specific user, leave $user_to_impersonate = ''; blank, create a new folder in your google drive and share with the google service account email adress or add a folder to your drive which the google service account can access
+0. Run `git clone`, check dependencies and/or run `composer install` (resp. `./composer.phar install`, http://getcomposer.org/)
+1. Register at the google developer console (https://console.developers.google.com/) and create a new project
+2. Enable and manage APIs ( resp. check "APIs & auth") and search for "Drive API" and enable it
+3. Go to "Credentials" (in the left menu) and generate a new ID, by selecting "Create credentials" and choosing "Service account key"
+4. In the next screen you can select which service account to use (App Engine, Compute Engine or a new Service Account)
+5. Generate a new .p12 key and keep it save
+6. Copy the `config.tpl` file to `config.php` and add the given project credentials
+7. if you don't want to impersonate a specific user, leave `$user_to_impersonate = '';` blank, create a new folder in your google drive and share with the google service account email adress or add a folder to your drive which the google service account can access
 
 note: there seems to be a problem with impersonating a @gmail adress
 
