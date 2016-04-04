@@ -28,4 +28,4 @@ The following properties are recommended:
 | status | open | assigned | closed | --- |
 | type | Bachelor Thesis | Master Thesis | Project | Dissertation |
 | urgency | high | normal | --- |
-| supervisor | use aksw.org Nametag |
+| supervisor | use aksw.org Nametag "FirstnameLastname" |
