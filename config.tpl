@@ -9,6 +9,15 @@ $private_key = file_get_contents('yourkey.p12');
 //your password for the p12 private key
 $privatekey_pass = '';
 
+//Tags to be displayed in the result table
+//Title and Download Link are always displayed
+// array("Tag"=>"defaultValue")
+$displayTags = array(
+    'status' => 'n.a.',
+    'type' => 't.b.a.',
+    'supervisor' => 'n.a.',
+    );
+
 // you usually don't have to change the lines below
 
 //scopes to define the access, should work this way
