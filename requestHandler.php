@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors','on');
+ini_set('display_errors','off');
 require_once 'vendor/autoload.php';
 /**
  *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
@@ -36,7 +36,11 @@ require_once 'documentHandler.php';
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
-    $tags = $documentHandler->getTags();
+    $tags = array();
+    $response = $documentHandler->getTags();
+    foreach($searchTags as $tag){
+        $tags[$tag] = $response[$tag];
+    }
     echo json_encode($tags);
 }elseif(isset($_GET['action']) && $_GET['action'] == "getMissingTags"){
     $constraints = buildConstraints($_GET);
@@ -54,11 +58,14 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
             $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
             if($title && $download){
-                array_push($response, array('title' => $title,
-                                            'status' => $description['status']?$description['status']:'n.a.',
-                                            'type' => isset($description['type'])?$description['type']:'t.b.a.',
-                                            'supervisor' => isset($description['supervisor'])?$description['supervisor']:'n.a.',
-                                            'download' => $download));
+                $outputTagArray = array('title' => $title);
+                //iterating over displayTags to gather information for the output
+                $displayTagKeys = array_keys($displayTags);
+                foreach ($displayTagKeys as $tag){
+                    $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];                
+                }
+                $outputTagArray['download'] = $download;
+                array_push($response, $outputTagArray);
             }else{
                 continue;
             }
