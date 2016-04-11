@@ -4,6 +4,8 @@ In the AKSW-group we have a lot of different topics currently researched by a gr
 
 # Making a topic document accessible to students #
 
+![Screenshot of the google drive GUI](screenshot.png?raw=true "Screenshot")
+
 1. Use your own google account to write a topic proposal and store it in your drive.
 2. Change the access-setting so that everyone with a link can see your document.
 3. You can preview your document by downloading the .pdf.
