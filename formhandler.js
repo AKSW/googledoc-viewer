@@ -28,11 +28,12 @@ function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
         }
         //binding change event
         $(selectors.join()).change(function (event){
-            printList(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
+            printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
         });
 
         //print first reply
-        printList(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
+        printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
+        
     });
 }
 
@@ -113,7 +114,7 @@ function generateForm(pathToPhpHandler,selector){
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printList(pathToPhpHandler,replyDivId,data,labels,selector){
+function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
     if(!selector){
         var selector = 'no selector';
     }
@@ -123,12 +124,12 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
             var output = "<p>"+findLabel('Sorry, no topic matched your criteria.',labels)+"</p>";
             }else{
             //start generating output table
-            var output = "<table>\n";
+            var output = "<table id=\"thesisAnnouncementTable\" class=\"display\" cellspacing=\"0\">\n";
             var keysPrinted = false;
             $.each(responseList,function(id, documentInstance){
-                output += "<tr>";
-                //add keys as first table line
+                //add keys as table head
                 if(!keysPrinted){
+                    output += "<thead>\n<tr>\n";
                     $.each(documentInstance,function(key,value){
                     if(!value){
                         return;
@@ -136,10 +137,11 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
                     output += "<th>"+findLabel(key,labels)+"</th>";
                     });
                     keysPrinted = true;
-                    output += "</tr>\n<tr>";
+                    output += "</tr>\n</thead>\n<tbody>\n";
                 }
+                output += "<tr>\n";
                 $.each(documentInstance,function(key,value){
-                    output += "<td>";
+                    output += "<td>\n";
                     if(key == "download"){
                         output += "<a href="+value+">PDF</a>";
                     }else if(key == "supervisor"){
@@ -156,13 +158,14 @@ function printList(pathToPhpHandler,replyDivId,data,labels,selector){
                     }else{
                         output += findLabel(value,labels);
                     }
-                    output += "</td>";
+                    output += "</td>\n";
                 });
                 output += "</tr>\n";
             });
-            output += "</table>\n";
+            output += "</tbody>\n</table>\n";
         };
         $('#'+replyDivId).html(output);//print html
+        $('#thesisAnnouncementTable').DataTable();
     });
 }
 function findLabel(needle,haystack){
