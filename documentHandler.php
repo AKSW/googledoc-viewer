@@ -2,7 +2,7 @@
 //TODO: make getTags work on sublist provided by search for specific tag
 /**
  * class for providing methods on the documents of a google drive
- * 
+ *
  *
  */
 
@@ -70,7 +70,7 @@ class DocumentHandler{
         }
     }
     /**
-     * get all document IDs 
+     * get all document IDs
      * @return array of google document IDs
      */
     public function getIDs(){
@@ -80,12 +80,12 @@ class DocumentHandler{
         }
         return $result;
     }
-    
+
     /**
      * searches our List of documents for a specific title, returns ID
      * @param $title: string; title of the document to be searched for (case-sensitive)
      * @return string: document ID
-     */    
+     */
     public function searchByTitle($title){
         foreach ($this->files as $file){
             if($file->getTitle() == $title){//case sensitive
@@ -98,7 +98,7 @@ class DocumentHandler{
      * searches our List of documents for a specific title, returns file handle
      * @param $id: string; ID of the document to be searched for
      * @return file handle of a google document file object
-     */    
+     */
     public function searchById($id){
         foreach ($this->files as $file){
             $tmpid = $file->getId();
@@ -125,6 +125,8 @@ class DocumentHandler{
         }else{
             $files = $this->files;
         }
+        mylog("$ files:");
+        mylog($files);
         foreach($this->files as $file){
             $tmpdescription = json_decode($file->getDescription(),true);
             if($tmpdescription == null){
@@ -133,21 +135,25 @@ class DocumentHandler{
             $constraintViolation = false;
             foreach($constraints as $key => $value){
               if((!isset($tmpdescription[$key]) || $tmpdescription[$key] != $value)&&
-                 (!isset($tmpdescription[$key]) || !is_array($tmpdescription[$key]) 
+                 (!isset($tmpdescription[$key]) || !is_array($tmpdescription[$key])
                                                 || !in_array($value,$tmpdescription  [$key]))){
                     $constraintViolation = true;
-                    break; 
-                }    
+                    break;
+                }
             }
             if(!$constraintViolation){
                 array_push($result,$file->getId());
             }
-        }   
+            mylog("new file:");
+            mylog($file);
+            mylog("and the description:");
+            mylog($tmpdescription);
+        }
         if(!empty($result)){
             return $result;
         }else{
             return NULL;
-        }    
+        }
     }
     /**
      * searches all files for description tags and collects entries
@@ -180,7 +186,7 @@ class DocumentHandler{
             }
         }
         return $tags;
-    }   
+    }
     public function getTitleById($id){
         return $this->searchById($id)->getTitle();
     }
@@ -188,7 +194,17 @@ class DocumentHandler{
         return $file->getDescription();
     }
     public function getDownloadLink($file){
-        return $file->getExportLinks()['application/pdf'];
+        $link = $file->getExportLinks()['application/pdf'];
+        mylog("get file download link - result:");
+        mylog($link);
+        if (!$link || strlen($link) < 9)
+            if ($file->getFileExtension() == "pdf") {
+                $link = $file->webContentLink;
+
+                if (!$link || strlen($link) < 9)
+                    $link = $file["alternateLink"];
+            }
+        return $link;
     }
     public function deleteFile($fileId) {
         try {

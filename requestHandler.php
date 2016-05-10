@@ -49,20 +49,28 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     echo json_encode($tags);
 }else{
     $constraints = buildConstraints($_GET);
+    mylog("constraints:");
+    mylog($constraints);
     //searching files that match these constraints
     $result = $documentHandler->searchByDescription($constraints);
+    mylog("searchByDescription() result:");
+    mylog($result);
     $response = array();
     if($result){
         foreach ($result as $x){
             $title = $documentHandler->getTitleById($x);
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
             $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
+            mylog("data of file");
+            mylog($title);
+            mylog($download);
+            mylog($description);
             if($title && $download){
                 $outputTagArray = array('title' => $title);
                 //iterating over displayTags to gather information for the output
                 $displayTagKeys = array_keys($displayTags);
                 foreach ($displayTagKeys as $tag){
-                    $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];                
+                    $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];
                 }
                 $outputTagArray['download'] = $download;
                 array_push($response, $outputTagArray);
@@ -86,4 +94,9 @@ function buildConstraints($data){
             $constraints[$key] = $value;
     }
     return $constraints;
+}
+function mylog($message) {
+  return;
+  print_r($message);
+  print "\n";
 }
