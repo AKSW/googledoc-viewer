@@ -144,7 +144,7 @@ function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
                     output += "<td>\n";
                     if(key == "download"){
                         output += "<a href="+value+">PDF</a>";
-                    }else if(key == "webContent"){
+                    }else if(key == "webView"){
                         output += "<a href="+value+" target=\"_blank\">View</a>";
                     }else if(key == "supervisor"){
                         if(value.constructor === Array){

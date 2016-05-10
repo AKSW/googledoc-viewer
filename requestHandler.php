@@ -74,7 +74,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
                     $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];
                 }
                 $outputTagArray['download'] = $download;
-                $outputTagArray['webview'] = $webContent;
+                $outputTagArray['webView'] = $webContent;
                 array_push($response, $outputTagArray);
             }else{
                 continue;
