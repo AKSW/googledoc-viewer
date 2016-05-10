@@ -60,6 +60,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
         foreach ($result as $x){
             $title = $documentHandler->getTitleById($x);
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
+            $webContent = $documentHandler->getWebContentLink($documentHandler->searchById($x));
             $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
             mylog("data of file");
             mylog($title);
@@ -73,6 +74,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
                     $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];
                 }
                 $outputTagArray['download'] = $download;
+                $outputTagArray['webContent'] = $webContent;
                 array_push($response, $outputTagArray);
             }else{
                 continue;

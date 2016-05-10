@@ -206,6 +206,16 @@ class DocumentHandler{
             }
         return $link;
     }
+        /**
+     * @return Link to the Document in the Google GUI view
+     * The intended function for the Webview API doesn't work with our documents
+     * prob. because of the publishing strategy
+     */
+    public function getWebContentLink($file){
+        $prefix = "https://docs.google.com/document/d/";
+        return $prefix.$file->getId();
+    
+    }
     public function deleteFile($fileId) {
         try {
             $this->service->files->delete($fileId);
