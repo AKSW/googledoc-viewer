@@ -26,5 +26,3 @@ $displayTags = array(
 
 //scopes to define the access, should work this way
 $scopes = array('https://www.googleapis.com/auth/drive');
-
-?>
