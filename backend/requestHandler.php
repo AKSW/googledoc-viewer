@@ -1,6 +1,6 @@
 <?php
 ini_set('display_errors','off');
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 /**
  *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
  *  origin.
@@ -31,8 +31,8 @@ function cors() {
     }
 }
 cors();
-require_once 'config.php'; //loading project credentials
-require_once 'documentHandler.php';
+require_once '../serviceConfigs/config.php'; //loading project credentials
+require_once 'googleDrive/documentHandler.php';
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
