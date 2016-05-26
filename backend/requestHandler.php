@@ -31,7 +31,7 @@ function cors() {
     }
 }
 cors();
-require_once '../serviceConfigs/config.php'; //loading project credentials
+require_once 'serviceConfigs/config.php'; //loading project credentials
 require_once 'googleDrive/documentHandler.php';
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
