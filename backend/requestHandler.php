@@ -1,5 +1,6 @@
 <?php
-ini_set('display_errors','on');
+// suppress php warnings to generate clear json output
+ini_set('display_errors','off');
 require_once '../vendor/autoload.php';
 //cors();
 require_once 'serviceConfigs/config.php'; //loading project credentials
