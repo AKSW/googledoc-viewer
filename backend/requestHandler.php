@@ -1,38 +1,9 @@
 <?php
-ini_set('display_errors','off');
+ini_set('display_errors','on');
 require_once '../vendor/autoload.php';
-/**
- *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
- *  origin.
- *
- *  In a production environment, you probably want to be more restrictive, but this gives you
- *  the general idea of what is involved.  For the nitty-gritty low-down, read:
- *
- *  - https://developer.mozilla.org/en/HTTP_access_control
- *  - http://www.w3.org/TR/cors/
- *
- * source: http://stackoverflow.com/a/9866124/414075
- */
-function cors() {
-    // Allow from any origin
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}"); // unsafe, can allow session stealing
-        //header("Acess-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Max-Age: 86400');    // cache for 1 day
-    }
-    // Access-Control headers are received during OPTIONS requests
-    if (isset($_SERVER['REQUEST_METHOD']) && (strtolower($_SERVER['REQUEST_METHOD']) == 'options')) {
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-        exit(0);
-    }
-}
-cors();
+//cors();
 require_once 'serviceConfigs/config.php'; //loading project credentials
-require_once 'googleDrive/documentHandler.php';
+require_once 'documentHandler/googleDriveHandler.php';
 //initializing documentHandler object
 $documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
@@ -49,12 +20,8 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     echo json_encode($tags);
 }else{
     $constraints = buildConstraints($_GET);
-    mylog("constraints:");
-    mylog($constraints);
     //searching files that match these constraints
     $result = $documentHandler->searchByDescription($constraints);
-    mylog("searchByDescription() result:");
-    mylog($result);
     $response = array();
     if($result){
         foreach ($result as $x){
@@ -62,10 +29,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
             $webContent = $documentHandler->getWebContentLink($documentHandler->searchById($x));
             $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
-            mylog("data of file");
-            mylog($title);
-            mylog($download);
-            mylog($description);
+            //checking for regular document entry
             if($title && $download){
                 $outputTagArray = array('title' => $title);
                 //iterating over displayTags to gather information for the output
@@ -97,8 +61,32 @@ function buildConstraints($data){
     }
     return $constraints;
 }
-function mylog($message) {
-  return;
-  print_r($message);
-  print "\n";
+/**
+ *  An example CORS-compliant method.  It will allow any GET, POST, or OPTIONS requests from any
+ *  origin.
+ *
+ *  In a production environment, you probably want to be more restrictive, but this gives you
+ *  the general idea of what is involved.  For the nitty-gritty low-down, read:
+ *
+ *  - https://developer.mozilla.org/en/HTTP_access_control
+ *  - http://www.w3.org/TR/cors/
+ *
+ * source: http://stackoverflow.com/a/9866124/414075
+ */
+function cors() {
+    // Allow from any origin
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}"); // unsafe, can allow session stealing
+        //header("Acess-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+    // Access-Control headers are received during OPTIONS requests
+    if (isset($_SERVER['REQUEST_METHOD']) && (strtolower($_SERVER['REQUEST_METHOD']) == 'options')) {
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+        exit(0);
+    }
 }

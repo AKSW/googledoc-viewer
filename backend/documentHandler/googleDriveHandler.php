@@ -125,8 +125,6 @@ class DocumentHandler{
         }else{
             $files = $this->files;
         }
-        mylog("$ files:");
-        mylog($files);
         foreach($this->files as $file){
             $tmpdescription = json_decode($file->getDescription(),true);
             if($tmpdescription == null){
@@ -144,10 +142,6 @@ class DocumentHandler{
             if(!$constraintViolation){
                 array_push($result,$file->getId());
             }
-            mylog("new file:");
-            mylog($file);
-            mylog("and the description:");
-            mylog($tmpdescription);
         }
         if(!empty($result)){
             return $result;
@@ -195,15 +189,6 @@ class DocumentHandler{
     }
     public function getDownloadLink($file){
         $link = $file->getExportLinks()['application/pdf'];
-        mylog("get file download link - result:");
-        mylog($link);
-        if (!$link || strlen($link) < 9)
-            if ($file->getFileExtension() == "pdf") {
-                $link = $file->webContentLink;
-
-                if (!$link || strlen($link) < 9)
-                    $link = $file["alternateLink"];
-            }
         return $link;
     }
         /**
@@ -215,13 +200,5 @@ class DocumentHandler{
         $prefix = "https://docs.google.com/document/d/";
         return $prefix.$file->getId();
     
-    }
-    public function deleteFile($fileId) {
-        try {
-            $this->service->files->delete($fileId);
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-        return false;
     }
 }

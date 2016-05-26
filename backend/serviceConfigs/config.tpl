@@ -4,7 +4,7 @@
 $client_email = '';
 
 //p12 key downloaded from the project credentials
-$private_key = file_get_contents('yourkey.p12');
+$private_key = file_get_contents('/path/to/yourkey.p12');
 
 //your password for the p12 private key
 $privatekey_pass = '';
