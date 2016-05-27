@@ -107,16 +107,8 @@ class googleDriveHandler{
      * not using custom file properties because these can't be added via the googledoc GUI
      * @return array of IDs that fullfill the constraints
      */
-    public function searchByDescription($constraints,$sublist = NULL){
-        $files = array();
+    public function searchByDescription($constraints){
         $result = array();
-        if($sublist){
-            foreach($sublist as $element){
-                array_push($files,$this->searchById($element));
-            }
-        }else{
-            $files = $this->files;
-        }
         foreach($this->files as $file){
             $tmpdescription = json_decode($file->getDescription(),true);
             if($tmpdescription == null){
