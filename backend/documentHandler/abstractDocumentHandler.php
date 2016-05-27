@@ -1,15 +1,13 @@
 <?php
+
 /**
- * class for providing methods on the documents of a google drive
+ * abstract class for providing methods on the documents of a virtual shared drive
  *
  *
  */
 
-class googleDriveHandler{
+abstract class abstractDocumentHandler{
 
-    private $credentials;
-    private $client;
-    private $service;
     private $files;
 
     /**
@@ -37,7 +35,7 @@ class googleDriveHandler{
      */
     public function getAllMetadata(){
         $tmpTags = array();
-        foreach($this->files as $file){
+        foreach($this-files as $file){
             $tmpDescription = json_decode($file->getDescription(),true);
             if($tmpDescription != false){ //no json error
                 $tmpTags = array_merge_recursive($tmpTags,$tmpDescription);
@@ -74,31 +72,6 @@ class googleDriveHandler{
         $prefix = "https://docs.google.com/document/d/";
         return $prefix.$file->getId();
     
-    }
-    /**
-     * Retrieve a list of File resources.
-     *
-     * @param Google_Service_Drive $service Drive API service instance.
-     * @return Array List of Google_Service_Drive_DriveFile resources.
-     */
-    private function retrieveAllFiles($service) {
-        $result = array();
-        $pageToken = NULL;
-        do {
-            try {
-                $parameters = array();
-                if ($pageToken) {
-                    $parameters['pageToken'] = $pageToken;
-                }
-                $files = $service->files->listFiles($parameters);
-                $result = array_merge($result, $files->getItems());
-                $pageToken = $files->getNextPageToken();
-                } catch (Exception $e) {
-                print "An error occurred: " . $e->getMessage();
-                $pageToken = NULL;
-            }
-        } while ($pageToken);
-        return $result;
     }
     /**
      * search for files with description rules

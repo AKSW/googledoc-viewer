@@ -6,10 +6,10 @@ require_once '../vendor/autoload.php';
 require_once 'serviceConfigs/config.php'; //loading project credentials
 require_once 'documentHandler/googleDriveHandler.php';
 //initializing documentHandler object
-$documentHandler = new documentHandler($client_email,$scopes,$private_key,$privatekey_pass);
+$documentHandler = new googleDriveHandler($client_email,$scopes,$private_key,$privatekey_pass);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = array();
-    $response = $documentHandler->getTags();
+    $response = $documentHandler->getAllMetadata();
     foreach($searchTags as $tag){
         $tags[$tag] = $response[$tag];
     }
@@ -29,7 +29,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $title = $documentHandler->getTitleById($x);
             $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
             $webContent = $documentHandler->getWebContentLink($documentHandler->searchById($x));
-            $description = json_decode($documentHandler->getDescription($documentHandler->searchById($x)),true);
+            $description = json_decode($documentHandler->getMetadataById($documentHandler->searchById($x)),true);
             //checking for regular document entry
             if($title && $download){
                 $outputTagArray = array('title' => $title);
