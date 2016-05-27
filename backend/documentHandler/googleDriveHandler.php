@@ -1,17 +1,16 @@
 <?php
+
+require_once 'abstractDocumentHandler.php';
 /**
  * class for providing methods on the documents of a google drive
  *
  *
  */
-
-class googleDriveHandler{
-
+class googleDriveHandler extends abstractDocumentHandler{
     private $credentials;
     private $client;
     private $service;
     private $files;
-
     /**
      * instantiate every object with a working google api service
      *
@@ -21,7 +20,12 @@ class googleDriveHandler{
      * @param $privatekey_pass string password of the P12 key
      * @param $grant string uri of the grant type
      */
-    public function __construct($client_email, $scopes, $private_key, $privatekey_pass, $grant = 'http://oauth.net/grant_type/jwt/1.0/bearer'){
+    public function __construct($configToken){
+    $client_email = $configToken['client_email']; 
+    $scopes = $configToken['scopes'];
+    $private_key = $configToken['private_key'];
+    $privatekey_pass = $configToken['privatekey_pass'];
+    $grant = 'http://oauth.net/grant_type/jwt/1.0/bearer';
         $this->credentials = new Google_Auth_AssertionCredentials($client_email, $scopes, $private_key, $privatekey_pass, $grant);
         $this->client = new Google_Client();
         $this->client->setAssertionCredentials($this->credentials);
@@ -107,7 +111,7 @@ class googleDriveHandler{
      * not using custom file properties because these can't be added via the googledoc GUI
      * @return array of IDs that fullfill the constraints
      */
-    public function searchByDescription($constraints){
+    public function searchByMetadata($constraints){
         $result = array();
         foreach($this->files as $file){
             $tmpdescription = json_decode($file->getDescription(),true);
