@@ -4,8 +4,7 @@
  *
  *
  */
-abstract class abstractDocumentHandler
-{
+abstract class abstractDocumentHandler{
 
     private $files;
 
