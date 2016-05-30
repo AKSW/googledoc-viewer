@@ -1,21 +1,19 @@
 <?php
 // suppress php warnings to generate clear json output
 ini_set('display_errors','off');
+require_once 'config.php';
 require_once '../vendor/autoload.php';
 //cors();
 require_once 'serviceConfigs/configLoader.php'; //loading project credentials
-require_once 'documentHandler/googleDriveHandler.php';
+foreach (scandir(__DIR__.'/documentHandler') as $filename) {
+    $path = __DIR__ . '/documentHandler/' . $filename;
+    if (is_file($path)) {
+        require_once $path;
+    }
+}
 
-$displayTags = array(
-    'status' => 'n.a.',
-    'type' => 't.b.a.',
-    'supervisor' => 'n.a.',
-    'Test' => 'Test'
-    );
-
-$searchTags = array ("type","status","supervisor","Test");
 //initializing documentHandler object
-$documentHandler = new googleDriveHandler($configToken[0]);
+$documentHandler = new documentHandlerMain($configToken);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = array();
     $response = $documentHandler->getAllMetadata();
@@ -25,7 +23,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     echo json_encode($tags);
 }elseif(isset($_GET['action']) && $_GET['action'] == "getMissingTags"){
     $constraints = buildConstraints($_GET);
-    $result = $documentHandler->searchByDescription($constraints);
+    $result = $documentHandler->searchByMetadata($constraints);
     $tags = $documentHandler->getTags($result);
     echo json_encode($tags);
 }else{
@@ -36,9 +34,9 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     if($result){
         foreach ($result as $x){
             $title = $documentHandler->getTitleById($x);
-            $download = $documentHandler->getDownloadLink($documentHandler->searchById($x));
-            $webContent = $documentHandler->getWebContentLink($documentHandler->searchById($x));
-            $description = json_decode($documentHandler->getMetadataById($documentHandler->searchById($x)),true);
+            $download = $documentHandler->getDownloadLink($x);
+            $webContent = $documentHandler->getWebContentLink($x);
+            $description = json_decode($documentHandler->getMetadataById($x),true);
             //checking for regular document entry
             if($title && $download){
                 $outputTagArray = array('title' => $title);

@@ -44,9 +44,4 @@ abstract class abstractDocumentHandler{
      * @return array of IDs that fullfill the constraints
      */
     abstract public function searchByMetadata($constraints);
-    /**
-     * @param Id
-     * @return file handle of a  document file object
-     */
-    abstract public function searchById($id);
 }

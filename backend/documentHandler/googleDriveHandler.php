@@ -37,7 +37,7 @@ class googleDriveHandler extends abstractDocumentHandler{
     }
     /**
      * searches all files for description tags and collects entries
-     * @return: array of supervisors
+     * @return: array of all metadata tags
      */
     public function getAllMetadata(){
         $tmpTags = array();
@@ -58,26 +58,45 @@ class googleDriveHandler extends abstractDocumentHandler{
             }
         }
         return $tags;
-    }    
-    public function getDownloadLink($file){
-        $link = $file->getExportLinks()['application/pdf'];
-        return $link;
     }
-    public function getMetadataById($file){
-        return $file->getDescription();
+    public function getDownloadLink($id){
+        $file = $this->searchById($id);
+        if($file){
+            $link = $file->getExportLinks()['application/pdf'];
+            return $link;
+        }else{
+            return false;
+        }
+    }
+    public function getMetadataById($id){
+        $file = $this->searchById($id);
+        if($file){
+            return $file->getDescription();
+        }else{
+            return false;
+        }
     }
     public function getTitleById($id){
-        return $this->searchById($id)->getTitle();
+        $file = $this->searchById($id);
+        if($file){
+            return $file->getTitle();
+        }else{
+            return false;
+        }
     }
     /**
      * @return Link to the Document in the Google GUI view
      * The intended function for the Webview API doesn't work with our documents
      * prob. because of the publishing strategy
      */
-    public function getWebContentLink($file){
-        $prefix = "https://docs.google.com/document/d/";
-        return $prefix.$file->getId();
-    
+    public function getWebContentLink($id){
+        $file = $this->searchById($id);
+        if($file){
+            $prefix = "https://docs.google.com/document/d/";
+            return $prefix.$id;
+        }else{
+            return false;
+        }
     }
     /**
      * Retrieve a list of File resources.
@@ -144,9 +163,8 @@ class googleDriveHandler extends abstractDocumentHandler{
      */
     public function searchById($id){
         foreach ($this->files as $file){
-            $tmpid = $file->getId();
             //case sensitive
-            if($tmpid == $id){
+            if($file->getId() == $id){
                 return $file;
             }
         }

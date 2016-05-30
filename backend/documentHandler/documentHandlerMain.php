@@ -1,6 +1,5 @@
 <?php
 require_once 'abstractDocumentHandler.php';
-// initialize all document Handler in this folder, give interface to outside, merging all documents together
 
 // read documentHandlerconfig
 
@@ -10,52 +9,95 @@ require_once 'abstractDocumentHandler.php';
 
 class documentHandlerMain extends abstractDocumentHandler{
 
-    private $documentHandler;
+    private $documentHandlerCollection;
 
     /**
      * instantiate the documentHandler 
      * @param configToken given by the configLoader.php
      */
     public function __construct($configToken){
-        foreach($configtoken as $configEntry){
-            $type = $configEntry['cloudType'];
+        $this->documentHandlerCollection = array();
+        foreach($configToken as $configEntry){
+            array_push($this->documentHandlerCollection,$this->createInstance($configEntry));
         }
-    
+    }
+    private function createInstance($configEntry) {
+        $reflectionClass = new ReflectionClass($configEntry['cloudType']."handler");
+        return $reflectionClass->newInstance($configEntry);
     }
     /**
      * function to retrieve all custom metadata from all Files in the cloud
      * @return decodeable json string (please see wiki page)
      */
-    abstract public function getAllMetadata();
+    public function getAllMetadata(){
+        $metadata = array();
+        foreach($this->documentHandlerCollection as $documentHandler){
+            $metadata = array_merge_recursive($metadata,$documentHandler->getAllMetadata());
+        };
+        return $metadata;
+    }
     /**
      * function to get Download Link to be passed into frontend
      * @return string
      */
-    abstract public function getDownloadLink($id);
+    public function getDownloadLink($id){
+        foreach($this->documentHandlerCollection as $documentHandler){
+            $tmp = $documentHandler->getDownloadLink($id);
+            if($tmp){
+                return $tmp;
+            }
+        }
+        return false;    
+    }
     /**
      * function to get all custom metadata for one File
      * @param id of the file
      * @return string json decodeable string (please see wiki page)
      */
-    abstract public function getMetadataById($id);
+    public function getMetadataById($id){
+        foreach($this->documentHandlerCollection as $documentHandler){  
+            $tmp = $documentHandler->getMetadataById($id);
+            if($tmp){
+                return $tmp;
+            }
+        }
+        return false; 
+    }
     /**
      * function to get the Title of a Document by Id
      * @param Id
      * @return string title of the document
      */
-    abstract public function getTitleById($id);
+    public function getTitleById($id){
+        foreach($this->documentHandlerCollection as $documentHandler){
+            $tmp = $documentHandler->getTitleById($id);
+            if($tmp){
+                return $tmp;
+            }
+        }
+        return false; 
+    }
     /**
      * @param Id
      * @return Link to the Document in a webcontent view
      */
-    abstract public function getWebContentLink($id);
+    public function getWebContentLink($id){
+        foreach($this->documentHandlerCollection as $documentHandler){
+            $tmp = $documentHandler->getWebContentLink($id);
+            if($tmp){
+                return $tmp;
+            }
+        }
+        return false; 
+    }
     /**
      * @return array of IDs that fullfill the constraints
      */
-    abstract public function searchByMetadata($constraints);
-    /**
-     * @param Id
-     * @return file handle of a  document file object
-     */
-    abstract public function searchById($id);
+    public function searchByMetadata($constraints){
+        $metadata = array();
+        foreach($this->documentHandlerCollection as $documentHandler){
+            $metadata = array_merge_recursive($metadata,$documentHandler->searchByMetadata($constraints));
+        };
+        return $metadata;
+    }
 }
