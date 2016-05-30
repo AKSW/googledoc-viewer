@@ -16,8 +16,8 @@ These are to be managed and organized in a collaborative Google document folder.
 3. Go to "Credentials" (in the left menu) and generate a new ID, by selecting "Create credentials" and choosing "Service account key"
 4. In the next screen you can select which service account to use (App Engine, Compute Engine or a new Service Account)
 5. Generate a new .p12 key and keep it save
-6. Copy the `config.tpl` file to `config.php` and add the given project credentials
-7. Fill in the `$searchTags`and `$displayTags`as described in the comments
+6. Copy the `/backend/serviceconfigs/googleDrive.ini.tpl` file to `/backend/serviceconfigs/googleDrive.ini.` and fill in the given project credentials
+7. Fill in the `$searchTags`and `$displayTags` into `/backend/config.php` as described in the comments
 8. Create a new folder in your google drive and share it with the google service account email adress or add a folder to your drive which the google service account can access
 
 # manual #

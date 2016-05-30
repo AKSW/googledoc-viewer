@@ -1,3 +1,6 @@
+;type of cloudservice
+cloudType = googleDrive
+
 ;email given in the project credentials
 client_email = 
 
