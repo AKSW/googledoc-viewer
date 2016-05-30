@@ -22,8 +22,8 @@ class googleDriveHandler extends abstractDocumentHandler{
      */
     public function __construct($configToken){
     $client_email = $configToken['client_email']; 
-    $scopes = $configToken['scopes'];
-    $private_key = $configToken['private_key'];
+    $scopes = array($configToken['scope']);
+    $private_key = file_get_contents($configToken['private_key']);
     $privatekey_pass = $configToken['privatekey_pass'];
     $grant = 'http://oauth.net/grant_type/jwt/1.0/bearer';
         $this->credentials = new Google_Auth_AssertionCredentials($client_email, $scopes, $private_key, $privatekey_pass, $grant);

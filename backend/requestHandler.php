@@ -3,10 +3,19 @@
 ini_set('display_errors','off');
 require_once '../vendor/autoload.php';
 //cors();
-require_once 'serviceConfigs/config.php'; //loading project credentials
+require_once 'serviceConfigs/configLoader.php'; //loading project credentials
 require_once 'documentHandler/googleDriveHandler.php';
+
+$displayTags = array(
+    'status' => 'n.a.',
+    'type' => 't.b.a.',
+    'supervisor' => 'n.a.',
+    'Test' => 'Test'
+    );
+
+$searchTags = array ("type","status","supervisor","Test");
 //initializing documentHandler object
-$documentHandler = new googleDriveHandler($client_email,$scopes,$private_key,$privatekey_pass);
+$documentHandler = new googleDriveHandler($configToken[0]);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = array();
     $response = $documentHandler->getAllMetadata();
@@ -22,7 +31,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
 }else{
     $constraints = buildConstraints($_GET);
     //searching files that match these constraints
-    $result = $documentHandler->searchByDescription($constraints);
+    $result = $documentHandler->searchByMetadata($constraints);
     $response = array();
     if($result){
         foreach ($result as $x){
