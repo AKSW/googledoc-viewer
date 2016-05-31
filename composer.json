@@ -1,7 +1,14 @@
 {
     "name": "fteichmann/googledoc-viewer",
+        "repositories": [
+        {
+        "type": "vcs",
+        "url":  "https://github.com/DataTables/DataTables"
+        }
+    ],
     "require": {
-        "google/apiclient": "1.*"
+        "google/apiclient": "1.*",
+        "DataTables/DataTables": "dev-master"
     },
     "license": "GPL-3.0",
     "authors": [
