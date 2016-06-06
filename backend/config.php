@@ -1,7 +1,10 @@
 <?php
 $displayTags = array(
+    'name' => 'n.a.',
+    'number' => 't.b.a.',
     'status' => 'n.a.',
-    'type' => 't.b.a.',
-    'supervisor' => 'n.a.'
+  //'editor' => 't.b.a.',
+  //'contributers' => 'n.a.',
+    'submission_date' => 'n.a.'
     );
-$searchTags = array ("type","status","supervisor");
+$searchTags = array ("status", "editor", "workpackage");

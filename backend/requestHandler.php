@@ -3,7 +3,7 @@
 ini_set('display_errors','off');
 require_once __DIR__.'/config.php';
 require_once __DIR__.'/../vendor/autoload.php';
-//cors();
+cors();
 require_once 'serviceConfigs/configLoader.php'; //loading project credentials
 foreach (scandir(__DIR__.'/documentHandler') as $filename) {
     $path = __DIR__ . '/documentHandler/' . $filename;
@@ -27,11 +27,18 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = $documentHandler->getTags($result);
     echo json_encode($tags);
 }else{
+    mylog('Filter and retrieve files!');
+    mylog('First get the constraints:');
     $constraints = buildConstraints($_GET);
+    mylog($constraints);
     //searching files that match these constraints
+    mylog('Now filter the files by the constraints');
     $result = $documentHandler->searchByMetadata($constraints);
+    mylog('filter returns:');
+    mylog($result);
     $response = array();
     if($result){
+        mylog('Now go through each file and extract the data');
         foreach ($result as $x){
             $title = $documentHandler->getTitleById($x);
             $download = $documentHandler->getDownloadLink($x);
@@ -39,16 +46,19 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $description = json_decode($documentHandler->getMetadataById($x),true);
             //checking for regular document entry
             if($title && $download){
-                $outputTagArray = array('title' => $title);
+                //no need for title and webView on SlideWiki website
+                //$outputTagArray = array('title' => $title);
                 //iterating over displayTags to gather information for the output
                 $displayTagKeys = array_keys($displayTags);
                 foreach ($displayTagKeys as $tag){
                     $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];
                 }
                 $outputTagArray['download'] = $download;
-                $outputTagArray['webView'] = $webContent;
+                //$outputTagArray['webView'] = $webContent;
                 array_push($response, $outputTagArray);
             }else{
+                mylog('No title and download found for:');
+                mylog($x);
                 continue;
             }
         }
@@ -97,4 +107,10 @@ function cors() {
             header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
         exit(0);
     }
+}
+
+function mylog($message) {
+  return;
+  print_r($message);
+  print "\n";
 }
