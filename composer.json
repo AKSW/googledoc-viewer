@@ -1,7 +1,7 @@
 {
     "name": "fteichmann/googledoc-viewer",
     "require": {
-        "google/apiclient": "1.*",
+        "google/apiclient": "1.*@beta",
         "DataTables/DataTables": "dev-master"
     },
     "license": "GPL-3.0",

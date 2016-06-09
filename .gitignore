@@ -8,3 +8,4 @@ todo.md
 googleDrive.ini
 config.php
 backend/tmp*
+tmp/*
