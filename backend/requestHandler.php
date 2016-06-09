@@ -46,15 +46,22 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
             $description = json_decode($documentHandler->getMetadataById($x),true);
             //checking for regular document entry
             if($title && $download){
-                //no need for title and webView on SlideWiki website
-                //$outputTagArray = array('title' => $title);
                 //iterating over displayTags to gather information for the output
                 $displayTagKeys = array_keys($displayTags);
                 foreach ($displayTagKeys as $tag){
+                    if($tag == 'title'){
+                        $outputTagArray['title'] = $title; 
+                        continue;
+                    }elseif($tag == 'download'){
+                        $outputTagArray['download'] = $download;
+                        continue;
+                    }elseif($tag == 'webView'){
+                        $outputTagArray['webView'] = $webContent;
+                        continue;
+                    }
                     $outputTagArray[$tag] = $description[$tag]?$description[$tag]:$displayTags[$tag];
                 }
-                $outputTagArray['download'] = $download;
-                //$outputTagArray['webView'] = $webContent;
+
                 array_push($response, $outputTagArray);
             }else{
                 mylog('No title and download found for:');
