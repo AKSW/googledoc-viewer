@@ -21,7 +21,7 @@ class googleDriveHandler extends abstractDocumentHandler{
      * @param $grant string uri of the grant type
      */
     public function __construct($configToken){
-    $client_email = $configToken['client_email']; 
+    $client_email = $configToken['client_email'];
     $scopes = array($configToken['scope']);
     $private_key = file_get_contents($configToken['private_key']);
     $privatekey_pass = $configToken['privatekey_pass'];
@@ -52,6 +52,10 @@ class googleDriveHandler extends abstractDocumentHandler{
         $tags = array();
         foreach($tmpTags as $key=>$value){
             if(is_array($value)){
+                //order number arrays non alphabetical
+                if (is_numeric($value[0])) {
+                  asort($value, SORT_NUMERIC);
+                }
                 $tags[$key] = array_values(array_unique($value));
             }else{
                 $tags[$key] = $value;
@@ -62,8 +66,17 @@ class googleDriveHandler extends abstractDocumentHandler{
     public function getDownloadLink($id){
         $file = $this->searchById($id);
         if($file){
-            $link = $file->getExportLinks()['application/pdf'];
-            return $link;
+          $link = $file->getExportLinks()['application/pdf'];
+          //We on SlideWiki have pdf and gdoc files
+          //exportLinks are for gdoc files, for pdf we just need a link
+          if (!$link || strlen($link) < 9)
+              if ($file->getFileExtension() == "pdf") {
+                  $link = $file->webContentLink;
+
+                  if (!$link || strlen($link) < 9)
+                      $link = $file["alternateLink"];
+              }
+          return $link;
         }else{
             return false;
         }
@@ -131,7 +144,9 @@ class googleDriveHandler extends abstractDocumentHandler{
      * @return array of IDs that fullfill the constraints
      */
     public function searchByMetadata($constraints){
+        mylog('googleDriveHandler->searchByMetadata()');
         $result = array();
+        mylog('We have '.count($this->files).' files here');
         foreach($this->files as $file){
             $tmpdescription = json_decode($file->getDescription(),true);
             if($tmpdescription == null){
@@ -148,6 +163,10 @@ class googleDriveHandler extends abstractDocumentHandler{
             }
             if(!$constraintViolation){
                 array_push($result,$file->getId());
+            }
+            else {
+              mylog('We have a violation here:');
+              mylog($file);
             }
         }
         if(!empty($result)){
