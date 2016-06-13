@@ -28,7 +28,7 @@ class googleDriveHandler extends abstractDocumentHandler{
         $grant = 'http://oauth.net/grant_type/jwt/1.0/bearer';
         $this->credentials = new Google_Auth_AssertionCredentials($client_email, $scopes, $private_key, $privatekey_pass, $grant);
         $config = new Google_Config();
-        $config->setClassConfig('Google_Cache_File', array('directory' => '../tmp/cache'));
+        $config->setClassConfig('Google_Cache_File', array('directory' => '/tmp/cache'));
         $this->client = new Google_Client($config);
         $this->client->setAssertionCredentials($this->credentials);
         if ($this->client->getAuth()->isAccessTokenExpired()) {
