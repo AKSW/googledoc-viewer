@@ -29,10 +29,10 @@ class documentHandlerMain extends abstractDocumentHandler{
      * function to retrieve all custom metadata from all Files in the cloud
      * @return decodeable json string (please see wiki page)
      */
-    public function getAllMetadata(){
+    public function getAllMetadata($sublist = NULL){
         $metadata = array();
         foreach($this->documentHandlerCollection as $documentHandler){
-            $metadata = array_merge_recursive($metadata,$documentHandler->getAllMetadata());
+            $metadata = array_merge_recursive($metadata,$documentHandler->getAllMetadata($sublist));
         };
         return $metadata;
     }

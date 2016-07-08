@@ -41,9 +41,17 @@ class googleDriveHandler extends abstractDocumentHandler{
      * searches all files for description tags and collects entries
      * @return: array of all metadata tags
      */
-    public function getAllMetadata(){
+    public function getAllMetadata($sublist = NULL){
+        if($sublist){
+            $tmpFilesList = array();
+            foreach($sublist as $tmpId){
+               array_push($tmpFilesList,$this->searchById($tmpId));
+            }
+        }else{
+            $tmpFilesList = $this->files;
+        }
         $tmpTags = array();
-        foreach($this->files as $file){
+        foreach($tmpFilesList as $file){
             $tmpDescription = json_decode($file->getDescription(),true);
             if($tmpDescription != false){ //no json error
                 $tmpTags = array_merge_recursive($tmpTags,$tmpDescription);

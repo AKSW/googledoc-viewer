@@ -16,8 +16,9 @@ abstract class abstractDocumentHandler{
     /**
      * function to retrieve all custom metadata from all Files in the cloud
      * @return decodeable json string (please see wiki page)
+     * @param $sublist: a list of ids of which only to get the Metadata Information
      */
-    abstract public function getAllMetadata();
+    abstract public function getAllMetadata($sublist = NULL);
     /**
      * function to get Download Link to be passed into frontend
      * @return string

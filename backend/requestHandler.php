@@ -24,7 +24,7 @@ if(isset($_GET['action']) && $_GET['action'] == "getTags"){
 }elseif(isset($_GET['action']) && $_GET['action'] == "getMissingTags"){
     $constraints = buildConstraints($_GET);
     $result = $documentHandler->searchByMetadata($constraints);
-    $tags = $documentHandler->getTags($result);
+    $tags = $documentHandler->getAllMetadata($result);
     echo json_encode($tags);
 }else{
     mylog('Filter and retrieve files!');
