@@ -9,3 +9,6 @@ googleDrive.ini
 config.php
 backend/tmp*
 tmp/*
+composer.phar
+node_modules/
+
