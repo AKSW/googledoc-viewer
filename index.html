@@ -24,7 +24,10 @@
     //adding a selector works only for a single entry!
     //var selector = {"supervisor" :"MichaelMartin"};
     //showform(phpOrigin,formId,replyId,labels,selector);
-    showform(phpOrigin,formId,replyId,labels);
+    var x = showform(phpOrigin,formId,replyId,labels);
+    x.done(function(){
+        $('#deliverable_table_list').DataTable();
+    });
     </script>
     <script type="text/javascript">
     </script>

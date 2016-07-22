@@ -1,4 +1,5 @@
 function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
+    var promise = jQuery.Deferred();
     var form = generateForm(pathToPhpHandler,selector);
     form.done(function(form){
         //actual form html generation
@@ -32,9 +33,10 @@ function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
         });
 
         //print first reply
-        printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
-
+        printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector, promise);
     });
+
+    return promise.promise();
 }
 
 function evaluateForm(form){
@@ -114,7 +116,7 @@ function generateForm(pathToPhpHandler,selector){
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
+function printTable(pathToPhpHandler,replyDivId,data,labels,selector,promise){
     if(!selector){
         var selector = 'no selector';
     }
@@ -167,7 +169,7 @@ function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
             output += "</tbody>\n</table>\n";
         };
         jQuery('#'+replyDivId).html(output);//print html
-        jQuery('#deliverable_table_list').DataTable();
+        promise.resolve(replyDivId);
     });
 }
 function findLabel(needle,haystack){
