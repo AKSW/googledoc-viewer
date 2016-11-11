@@ -169,7 +169,8 @@ function printTable(pathToPhpHandler,replyDivId,data,labels,selector,promise){
             output += "</tbody>\n</table>\n";
         };
         jQuery('#'+replyDivId).html(output);//print html
-        $('#deliverable_table_list').DataTable();
+        jQuery('#deliverable_table_list').DataTable();
+        promise.resolve(replyDivId);
     });
 }
 function findLabel(needle,haystack){
