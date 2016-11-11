@@ -1,5 +1,4 @@
 function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
-    var promise = jQuery.Deferred();
     var form = generateForm(pathToPhpHandler,selector);
     form.done(function(form){
         //actual form html generation
@@ -33,10 +32,8 @@ function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
         });
 
         //print first reply
-        printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector, promise);
+        printTable(pathToPhpHandler,replyDivId,evaluateForm(form),labels,selector);
     });
-
-    return promise.promise();
 }
 
 function evaluateForm(form){
@@ -77,7 +74,6 @@ function generateForm(pathToPhpHandler,selector){
             requestQuery += "?action=getTags";
     }
     jQuery.getJSON(requestQuery, function(jsonTagList){
-
         var form = new Array();
         jQuery.each(jsonTagList,function(jsonId,jsonTag){
             var formTag = {};
@@ -102,21 +98,18 @@ function generateForm(pathToPhpHandler,selector){
                         tagOptions.push({value:jsonTagOption, label:jsonTagOption});
                 });
             }
-
             formTag['options']=tagOptions;
             form.push(formTag);
         });
-        //console.log(JSON.stringify(form,null,2));
         p.resolve(form);
     });
     return p.promise();
 }
 
-
 /**
  * generate reply html tabular, print to replyDiv
  */
-function printTable(pathToPhpHandler,replyDivId,data,labels,selector,promise){
+function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
     if(!selector){
         var selector = 'no selector';
     }
@@ -170,7 +163,6 @@ function printTable(pathToPhpHandler,replyDivId,data,labels,selector,promise){
         };
         jQuery('#'+replyDivId).html(output);//print html
         jQuery('#deliverable_table_list').DataTable();
-        promise.resolve(replyDivId);
     });
 }
 function findLabel(needle,haystack){
