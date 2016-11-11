@@ -169,7 +169,7 @@ function printTable(pathToPhpHandler,replyDivId,data,labels,selector,promise){
             output += "</tbody>\n</table>\n";
         };
         jQuery('#'+replyDivId).html(output);//print html
-        promise.resolve(replyDivId);
+        $('#deliverable_table_list').DataTable();
     });
 }
 function findLabel(needle,haystack){
