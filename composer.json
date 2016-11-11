@@ -1,13 +1,12 @@
 {
     "name": "fteichmann/googledoc-viewer",
     "require": {
-        "google/apiclient": "v1.0.1-beta",
-        "DataTables/DataTables": "dev-master"
+        "google/apiclient": "v1.0.1-beta"
     },
     "license": "GPL-3.0",
     "authors": [
         {
-            "name": "Franz Teichmann",
+            "name": "FTeichmann",
             "email": "franz.teichmann@gmx.de"
         }
     ],

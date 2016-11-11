@@ -1,0 +1,29 @@
+{
+  "name": "googledoc-viewer",
+  "version": "1.0.0",
+  "description": "AKSW Google Document Viewer",
+  "main": "frontend/index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AKSW/googledoc-viewer.git"
+  },
+  "author": "FTeichmann",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "imports-loader": "^0.6.5",
+    "jquery": "^3.1.1",
+    "webpack": "^1.13.3"
+  },  
+  "bugs": {
+    "url": "https://github.com/AKSW/googledoc-viewer/issues"
+  },
+  "homepage": "https://github.com/AKSW/googledoc-viewer#readme"
+}
