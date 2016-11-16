@@ -1,4 +1,6 @@
-function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
+var jQuery = require('jquery');
+require( 'datatables.net-bs' )( window , jQuery );
+var showform = function (pathToPhpHandler,formId,replyDivId,labels,selector){
     var form = generateForm(pathToPhpHandler,selector);
     form.done(function(form){
         //actual form html generation
@@ -38,7 +40,7 @@ function showform(pathToPhpHandler,formId,replyDivId,labels,selector){
 
 function evaluateForm(form){
     //loading form parameters into variables
-    formdata = new Object();
+    var formdata = new Object();
     for(var i = 0; i<form.length;i++){
         formdata[form[i].id] = jQuery('#'+form[i].id).val();
     }
@@ -110,9 +112,6 @@ function generateForm(pathToPhpHandler,selector){
  * generate reply html tabular, print to replyDiv
  */
 function printTable(pathToPhpHandler,replyDivId,data,labels,selector){
-    if(!selector){
-        var selector = 'no selector';
-    }
     //request php json response
     jQuery.getJSON(pathToPhpHandler, data, function(responseList){
         if(responseList.length == 0){
@@ -171,4 +170,8 @@ function findLabel(needle,haystack){
     }else{
         return needle;
     }
+}
+
+module.exports = {
+    showform : showform
 }
