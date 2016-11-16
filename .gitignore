@@ -11,4 +11,4 @@ backend/tmp*
 tmp/*
 composer.phar
 node_modules/
-
+frontend/bundle.js
