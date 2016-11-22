@@ -2,18 +2,17 @@
   "name": "googledoc-viewer",
   "version": "1.0.0",
   "description": "AKSW Google Document Viewer",
-  "main": "frontend/index.js",
   "directories": {
     "doc": "doc"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AKSW/googledoc-viewer.git"
   },
-  "author": "FTeichmann",
+  "author": {
+        "name": "FTeichmann",
+        "email": "franz.teichmann@gmx.de"
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "babel-loader": "^6.2.7",

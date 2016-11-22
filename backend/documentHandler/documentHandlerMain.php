@@ -1,6 +1,4 @@
 <?php
-require_once 'abstractDocumentHandler.php';
-
 // read documentHandlerconfig
 
 // load ../serviceConfigs/configLoader.php
@@ -22,7 +20,7 @@ class documentHandlerMain extends abstractDocumentHandler{
         }
     }
     private function createInstance($configEntry) {
-        $reflectionClass = new ReflectionClass($configEntry['cloudType']."handler");
+        $reflectionClass = new ReflectionClass($configEntry['cloudType']."Handler");
         return $reflectionClass->newInstance($configEntry);
     }
     /**

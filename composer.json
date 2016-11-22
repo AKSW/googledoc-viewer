@@ -1,14 +1,24 @@
 {
-    "name": "fteichmann/googledoc-viewer",
-    "require": {
-        "google/apiclient": "v1.0.1-beta"
-    },
-    "license": "GPL-3.0",
-    "authors": [
-        {
-            "name": "FTeichmann",
-            "email": "franz.teichmann@gmx.de"
-        }
-    ],
-    "minimum-stability": "dev"
+  "name": "googledoc-viewer",
+  "version": "1.0.0",
+  "description": "AKSW Google Document Viewer",
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AKSW/googledoc-viewer.git"
+  },
+  "author": {
+        "name": "FTeichmann",
+        "email": "franz.teichmann@gmx.de"
+  },
+  "license": "GPL-3.0",
+  "minimum-stability": "dev",
+  "autoload": {
+   "classmap": [
+     "backend/documentHandler",
+     "backend/serviceConfigs"
+   ]
+  }
 }

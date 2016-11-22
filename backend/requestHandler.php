@@ -4,16 +4,9 @@ ini_set('display_errors','off');
 require_once __DIR__.'/config.php';
 require_once __DIR__.'/../vendor/autoload.php';
 cors();
-require_once 'serviceConfigs/configLoader.php'; //loading project credentials
-foreach (scandir(__DIR__.'/documentHandler') as $filename) {
-    $path = __DIR__ . '/documentHandler/' . $filename;
-    if (is_file($path)) {
-        require_once $path;
-    }
-}
-
 //initializing documentHandler object
-$documentHandler = new documentHandlerMain($configToken);
+$configLoader = new ConfigLoader();
+$documentHandler = new documentHandlerMain($configLoader->configToken);
 if(isset($_GET['action']) && $_GET['action'] == "getTags"){
     $tags = array();
     $response = $documentHandler->getAllMetadata();

@@ -1,6 +1,4 @@
 <?php
-
-require_once 'abstractDocumentHandler.php';
 /**
  * class for providing methods on the documents of a google drive
  *
