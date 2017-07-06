@@ -1,6 +1,9 @@
 FROM whitegecko/docker-nginx-php
 
-RUN mkdir /var/www/html2 && mkdir /var/www/html2/backend && mkdir /var/www/html2/backend/documentHandler && mkdir /var/www/html2/backend/serviceConfigs
+RUN mkdir /var/www/html2 /var/www/html2/backend /var/www/html2/backend/documentHandler /var/www/html2/backend/serviceConfigs
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
 
 WORKDIR /var/www/html2
 
@@ -12,8 +15,8 @@ RUN cd /var/www/html2 && php -r "readfile('https://getcomposer.org/installer');"
 
 ADD ["backend/config.php", "backend/requestHandler.php", "/var/www/html2/backend/"]
 
-ADD ["backend/documentHandler/abstractDocumentHandler.php", "backend/documentHandler/documentHandlerMain.php", "backend/documentHandler/googleDriveHandler.php", "/var/www/html2/backend/documentHandler/"]
+ADD ["backend/documentHandler/abstractDocumentHandler.php", "backend/documentHandler/documentHandlerMain.php", "backend/documentHandler/googleDriveHandler.php", "backend/documentHandler/"]
 
-ADD ["backend/serviceConfigs/googleDrive.ini", "backend/serviceConfigs/configLoader.php", "secret.p12", "/var/www/html2/backend/serviceConfigs/"]
+ADD ["backend/serviceConfigs/googleDrive.ini", "backend/serviceConfigs/configLoader.php", "backend/serviceConfigs/secret.p12", "backend/serviceConfigs/"]
 
 CMD ["/usr/bin/supervisord"]
